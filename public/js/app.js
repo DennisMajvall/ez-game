@@ -17,6 +17,9 @@ stage = new PIXI.Container();
 stage.interactive = true;
 stage.mousemove = movehandler;
 
+var x = 0;
+var y = 0;
+
 PIXI.loader
   .add("/images/player.png") // 128x128
   .load(setup);
@@ -39,16 +42,15 @@ function setup() {
 }
 
 function movehandler(event) {
-    const x = event.data.global.x;
-    const y = event.data.global.y;
-	Math.PI/4
-    player.rotation = Math.PI/2+Math.atan2(y - player.y, x - player.x);
+    x = event.data.global.x;
+    y = event.data.global.y;
 }
 
 
 function gameLoop() {
   requestAnimationFrame(gameLoop);
   state();
+  player.rotation = Math.PI/2+Math.atan2(y - player.y, x - player.x);
   renderer.render(stage);
 }
 
