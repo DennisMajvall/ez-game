@@ -1,6 +1,6 @@
 //Create the renderer
 
-var cat, state, stage, renderer;
+var player, state, stage, renderer;
 
 var w_width = window.innerWidth;
 var w_height = window.innerHeight;
@@ -14,26 +14,35 @@ renderer = PIXI.autoDetectRenderer(w_width, w_height, {
 document.body.appendChild(renderer.view);
 
 stage = new PIXI.Container();
+stage.interactive = true;
+stage.mousemove = movehandler;
 
 PIXI.loader
-  .add("/images/anon.jpg") // 128x128
+  .add("/images/player.png") // 128x128
   .load(setup);
 
 function setup() {
-  cat = new PIXI.Sprite(
-    PIXI.loader.resources["/images/anon.jpg"].texture
+  player = new PIXI.Sprite(
+    PIXI.loader.resources["/images/player.png"].texture
   );
 
-  cat.x = w_width/2;
-  cat.y = w_height/2;
-  cat.anchor.set(0.5, 0.5);
-  // cat.rotation = 1.57;
-  new MovementInput(cat);
+  player.x = w_width/2;
+  player.y = w_height/2;
+  player.anchor.set(0.5, 0.5);
+  // player.rotation = 1.57;
+  new MovementInput(player);
 
-  stage.addChild(cat);
+  stage.addChild(player);
 
   state = play;
   gameLoop();
+}
+
+function movehandler(event) {
+    const x = event.data.global.x;
+    const y = event.data.global.y;
+	Math.PI/4
+    player.rotation = Math.PI/2+Math.atan2(y - player.y, x - player.x);
 }
 
 
@@ -44,7 +53,7 @@ function gameLoop() {
 }
 
 function play() {
-  //Use the cat's velocity to make it move
-  cat.x += cat.vx;
-  cat.y += cat.vy
+  //Use the player's velocity to make it move
+  player.x += player.vx;
+  player.y += player.vy
 }
