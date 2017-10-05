@@ -9,14 +9,7 @@ class MovementInput {
 
     target.vx = 0;
     target.vy = 0;
-  }
 
-  rotateTowardsPoint(px, py){
-    var dist_X = px - this.target.x;
-    var dist_Y = py - this.target.y;
-    var angle = Math.atan2(dist_Y, dist_X);
-    //var degrees = angle * 180/ Math.PI;
-    return angle;
   }
 
   leftPress() {
