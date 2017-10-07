@@ -1,10 +1,9 @@
 ADD 
+ + Remove disconnected player sprite
  - Add limit to open world and draw green to the whole world
  - Resources
  - Collision
  - RenderText(Name, hp, resources)
- - startgame button
- - Username input
  - PlayersNames above head
  - Add melee weapons/resource weapons
  - getResources
@@ -12,27 +11,11 @@ ADD
  - Add range to bullets(timed) & add cooldown
  - Map 
  - Limit to 1 browser per game
- - Beter images/sprites
- - Random AI(Animals = food)
+
+
 
 
 v2.0
- - Start menu with serverlist + Options > follow on facebook and twitter
- - Chat functionality
- - Registration
- - Save stats in database
- - Big balance FOR LONGTERM GAMEPLAY
  - Add mages + healers
  - Effects(lifesteal/poison/burn/slow)
- - Particle effects
- - Keybinding
- - Party making
- - Guild making
- 
- 
- V3.0 
- - Crafting
- 
- 
- v3D Switch to babylon.js
- 
+ - 

@@ -116,7 +116,10 @@ function attachSocketListeners(socket) {
 
 	 stage.addChild(bullet);
   });
-
+  
+  socket.on('removePlayer',function(data){
+	stage.removeChild(players[data]);  
+  });
 
   mouse.bindSocket(socket);
   keyboard.bindSocket(socket);

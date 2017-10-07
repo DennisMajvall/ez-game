@@ -56,6 +56,7 @@ function onPlayerConnected(socket){
 function onPlayerDisconnected(socket){
   console.log('a user disconnected', socket.id);
   game.removePlayer(socket.id);
+  io.emit('removePlayer',socket.id);
 }
 
 
