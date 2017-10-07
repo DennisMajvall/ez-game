@@ -1,13 +1,12 @@
 //Create the renderer
 
 const mouse = new Mouse();
-var player, state, stage, renderer;
-var games = [];
+var state, stage, renderer;
 
 var w_width = window.innerWidth;
 var w_height = window.innerHeight;
 
-var gameList = [];
+
 
 // TODO: on resize event: change size of canvas etc..
 renderer = PIXI.autoDetectRenderer(w_width, w_height, {
@@ -37,13 +36,15 @@ PIXI.loader
   .load(setup);
 
 function setup() {
-  player = new Player('Henk');
-  player.initialize();
 
-  var newGame = new Game();
-
-
-  state = play;
+  var socket = io();
+  socket.on('time', function(data) {
+	  console.log(data.time);
+  });
+  //TODO: Load list of games
+  
+ 
+  state = newGame.update.bind(newGame);
   gameLoop();
 }
 
@@ -54,9 +55,8 @@ function gameLoop() {
   renderer.render(stage);
 }
 
-function play() {
-  player.update();
-}
+
+
 
 
 

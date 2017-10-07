@@ -9,32 +9,39 @@ class Game{
     for(let i = 0; i < 10; i++){
       new ResourceNode('rock');
     }
+	
+	this.addPlayer(new Player('Henk'));
   }
 
-addPlayer(player){
-	this.players.push(player);
-}
+  addPlayer(player){
+	  //Send to client to render player in game
+    //io.emit('addPlayer', { player{
+    //  "p1Pos": {x: 300, y: 350},
+   //   "p2Pos": {x: 700, y: 240}
+   // }});  
+    this.players.push(player);
+  }
 
-HitPlayer(hitter, taker){
+  HitPlayer(hitter, taker){
 	taker.hp -= hitter.dmg;
-	this.LogHp();
+	
 	if(taker.hp <=0){
 		this.PlayerDied(hitter);
-	}
-}
+    }
+  }
 
-	PlayerDied(player){
-		//dead animation;
-	}
+  PlayerDied(player){
+    //dead animation;
+  }
 
 	
+
 	
-	LogHp() {
-		
-		for (let player of this.players){
-		console.log("Name: "+player.name+" hp: "+ player.hp);
-		}
+  update() {
+	for(let p of this.players){
+      p.update();
 	}
+  }
 }
 
 //var game = new Game();
