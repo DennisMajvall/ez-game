@@ -2,9 +2,12 @@
 
 const mouse = new Mouse();
 var player, state, stage, renderer;
+var games = [];
 
 var w_width = window.innerWidth;
 var w_height = window.innerHeight;
+
+var gameList = [];
 
 // TODO: on resize event: change size of canvas etc..
 renderer = PIXI.autoDetectRenderer(w_width, w_height, {
@@ -30,15 +33,15 @@ PIXI.loader
   .add("/images/player.png")
   .add("/images/tree.png")
   .add("/images/bullet.png")
+  .add("/images/rock.png")
   .load(setup);
 
 function setup() {
-  player = new Player('bitch');
+  player = new Player('Henk');
   player.initialize();
 
-  for(let i = 0; i < 5; i++){
-    new ResourceNode('tree');
-  }
+  var newGame = new Game();
+
 
   state = play;
   gameLoop();

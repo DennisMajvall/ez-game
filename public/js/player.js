@@ -31,6 +31,16 @@ class Player {
     this.updateRotation();
     this.updateMovement();
     this.updateBullets();
+	this.updateStats();
+  }
+  
+  
+  updateStats(){
+	//var richText = new PIXI.Text('Name: '+this.name +' '+'HP: '+this.hp , styleBlue);
+	var richText = new PIXI.Text('Name: '+this.name +' '+'\nHP: '+this.hp);
+    richText.x = 30;
+    richText.y = 50;
+    stage.addChild(richText);
   }
 
   updateRotation(){
@@ -53,7 +63,7 @@ class Player {
   }
 
   updateBullets(){
-    const speed = 5;
+    const speed = 10;
 
     for(let b of this.bullets){
       b.x += Math.cos(b.rotation) * speed;

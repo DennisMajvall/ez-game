@@ -1,19 +1,27 @@
-class GameOfEz{
-	constructor(){
-	this.players = [];
-	}
+class Game{
+  constructor(){
+    this.players = [];
+	
+    for(let i = 0; i < 5; i++){
+      new ResourceNode('tree');
+    }
+  
+    for(let i = 0; i < 10; i++){
+      new ResourceNode('rock');
+    }
+  }
 
-	addPlayer(player){
-		this.players.push(player);
-	}
+addPlayer(player){
+	this.players.push(player);
+}
 
-	HitPlayer(hitter, taker){
-		taker.hp -= hitter.dmg;
-		this.LogHp();
-		if(taker.hp <=0){
-			this.PlayerDied(hitter);
-		}
+HitPlayer(hitter, taker){
+	taker.hp -= hitter.dmg;
+	this.LogHp();
+	if(taker.hp <=0){
+		this.PlayerDied(hitter);
 	}
+}
 
 	PlayerDied(player){
 		//dead animation;
@@ -29,14 +37,14 @@ class GameOfEz{
 	}
 }
 
-var game = new GameOfEz();
+//var game = new Game();
 
-var Hovsep = new Player('Hovsep');
-var Dennis = new Player('Dennis');
+//var Hovsep = new Player('Hovsep');
+//var Dennis = new Player('Dennis');
 
-game.addPlayer(Hovsep);
-game.addPlayer(Dennis);
+//game.addPlayer(Hovsep);
+//game.addPlayer(Dennis);
 
 
-game.HitPlayer(Hovsep, Dennis);
+//game.HitPlayer(Hovsep, Dennis);
 
