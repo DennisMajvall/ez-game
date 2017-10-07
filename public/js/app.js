@@ -23,6 +23,8 @@ document.getElementById('display').appendChild(renderer.view);
 
 stage = new PIXI.Container();
 stage.interactive = true;
+stage.position.x = renderer.width/2;
+stage.position.y = renderer.height/2;
 
 var background = new PIXI.Graphics();
 background.beginFill(0x768f5a); // NICE GREEN COLOR: rgb(118, 143, 90)
@@ -58,36 +60,37 @@ function gameLoop() {
   renderer.render(stage);
 }
 
-function play(){ 
-    for(let b of bullets){
-      b.x += b.vx;
-	  b.y += b.vy;
-    }
-	
-	//player.sprite.rotation = mouse.rotation;
+function play(){
+  for(let b of bullets){
+    b.x += b.vx;
+    b.y += b.vy;
+  }
+
+  stage.pivot.x = player.x;
+  stage.pivot.y = player.y;
+  player.rotation = mouse.rotation;
 }
 
 function addPlayer(playerId, p){
   players[playerId] = new PixiSprite('player.png');
   stage.addChild(players[playerId]);
-  player = players[playerId];
 }
 
 function renderPlayer(playerId, p){
   players[playerId].x = p.x;
   players[playerId].y = p.y;
-  
-  players[playerId].rotation = p.rotation;
-  
-  
-stage.pivot.x = p.x;
-stage.pivot.y = p.y;
-stage.position.x = renderer.width/2;
-stage.position.y = renderer.height/2;
-  
+
+  if (playerId != player.id) {
+    players[playerId].rotation = p.rotation;
+  }
 }
 
 function attachSocketListeners(socket) {
+  socket.on('playerId', function(playerId) {
+    player = players[playerId];
+    player.id = playerId;
+  });
+
   socket.on('playerPositions', function(data) {
     for (let key in data){
       let value = data[key]
@@ -99,22 +102,22 @@ function attachSocketListeners(socket) {
       renderPlayer(key, value);
     }
   });
-  
+
   socket.on('bulletSpawn', function(data){
     const speed = 10;
 	  var bullet = new PixiSprite('bullet.png');
 	  bullet.x = data.x;
 	  bullet.y = data.y;
 	  bullet.rotation = data.rotation;
-	  
+
 	  bullet.vx = Math.cos(bullet.rotation) * speed;
       bullet.vy = Math.sin(bullet.rotation) * speed;
 	  bullets.push(bullet);
-	  
+
 	 stage.addChild(bullet);
   });
-  
-  
+
+
   mouse.bindSocket(socket);
   keyboard.bindSocket(socket);
 }

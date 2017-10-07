@@ -27,13 +27,13 @@ module.exports = class Player {
     this.updateBullets();
   }
 
-  
+
   setRotation(rotationPos){
     this.sprite.rotation = rotationPos;
   }
 
-  spawnBullet(mousePos){
-    let rotation = this.rotateToPoint(mousePos.x, mousePos.y, mousePos.x-0.5, mousePos.y-0.5);
+  spawnBullet(mouse){
+    let rotation = mouse.rot;
     let bullet = {};
 
     const distanceFromCenter = 120;
@@ -42,7 +42,7 @@ module.exports = class Player {
     bullet.rotation = rotation;
 
     this.bullets.push(bullet);
-	return bullet;
+	  return bullet;
   }
 
   updateBullets(){
@@ -72,7 +72,7 @@ module.exports = class Player {
   shoot(mousePos) {
     return this.spawnBullet(mousePos);
   }
-  
+
   // // Global helper functions
   rotateToPoint(mx, my, px, py){
 	  var dist_Y = my - py;

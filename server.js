@@ -28,6 +28,7 @@ function onPlayerConnected(socket){
   console.log('a user connected', socket.id);
   game.addPlayer(socket.id);
   sendPlayerPositions();
+  socket.emit('playerId', socket.id);
 
   socket.on('keyboardDown', function(action){
     game.players[socket.id].input[action] = true;
@@ -38,13 +39,13 @@ function onPlayerConnected(socket){
 
   socket.on('rotation', function(data){
 	  game.players[socket.id].setRotation(data);
-	  
-	  
+
+
     console.log(socket.id, 'rotation:', data);
   });
 
   socket.on('mouseDown', function(data){
-	var bul = game.players[socket.id].shoot(data);  
+	var bul = game.players[socket.id].shoot(data);
 	if(bul){
 	  io.emit('bulletSpawn', {x:bul.x, y:bul.y, rotation:bul.rotation} );
 	}
