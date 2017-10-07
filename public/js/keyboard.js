@@ -1,42 +1,46 @@
-/*
-  let leftKey = keyboard(37); // 37 = left arrow
-  leftKey.press = function() {...};
-  leftKey.release = function() {...};
-
-  Keycodes: http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00000520.html
-*/
-
 class Keyboard {
-  constructor(keyCode, pressFunc, releaseFunc){
-    this.code = keyCode;
-    this.isDown = false;
-    this.isUp = true;
-    this.press = pressFunc;
-    this.release = releaseFunc;
+  constructor(){
+    if (Keyboard.instance) { return Keyboard.instance; }
 
-    this.attachEventListeners();
+    this.keysDown = {};
+    this.keyMapping = {
+      'up': [ 'w', 'arrowup'],
+      'right': [ 'd', 'arrowright'],
+      'down': [ 's', 'arrowdown'],
+      'left': [ 'a', 'arrowleft']
+    };
   }
 
-  downHandler(event) {
-    if (event.keyCode === this.code) {
-      if (this.isUp && this.press) this.press();
-      this.isDown = true;
-      this.isUp = false;
-    }
-    event.preventDefault();
+  bindSocket(socket){
+    if (this.socket) { return; } // don't attach listeners more than once
+    this.socket = socket;
+
+    document.body.onkeydown = this.onKeyDown.bind(this);
+    document.body.onkeyup = this.onKeyUp.bind(this);
+  }
+
+  onKeyDown(e){
+    if (this.keysDown[e.key]) { return; } // return if key is already down
+    this.keysDown[e.key] = true;
+
+    let action = this.getActionFromKey(e);
+    if (action) { this.socket.emit('keyboardDown', action); }
+  }
+
+  onKeyUp(e){
+    delete this.keysDown[e.key];
+
+    let action = this.getActionFromKey(e);
+    if (action) { this.socket.emit('keyboardUp', action); }
   };
 
-  upHandler(event) {
-    if (event.keyCode === this.code) {
-      if (this.isDown && this.release) this.release();
-      this.isDown = false;
-      this.isUp = true;
+  getActionFromKey(e){
+    for (let action in this.keyMapping){
+      if (this.keyMapping[action].includes(e.key.toLowerCase())){
+        return action;
+      }
     }
-    event.preventDefault();
-  };
-
-  attachEventListeners(){
-    window.addEventListener("keydown", this.downHandler.bind(this), false);
-    window.addEventListener("keyup", this.upHandler.bind(this), false);
+    return false;
   }
 }
+

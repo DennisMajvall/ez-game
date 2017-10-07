@@ -1,6 +1,8 @@
 //Create the renderer
 
 const mouse = new Mouse();
+const keyboard = new Keyboard();
+
 var state, stage, renderer;
 
 var w_width = window.innerWidth;
@@ -28,6 +30,8 @@ background.endFill();
 stage.addChild(background);
 
 
+
+
 PIXI.loader
   .add("/images/player.png")
   .add("/images/tree.png")
@@ -35,24 +39,50 @@ PIXI.loader
   .add("/images/rock.png")
   .load(setup);
 
-function setup() {
 
-  var socket = io();
-  socket.on('time', function(data) {
-	  console.log(data.time);
-  });
-  //TODO: Load list of games
-  
- 
-  state = newGame.update.bind(newGame);
+let players = {};
+
+function setup() {
+  let socket = io();
+  attachSocketListeners(socket);
+
+  state = play;
   gameLoop();
 }
 
 function gameLoop() {
   requestAnimationFrame(gameLoop);
-
-  state(); // calls play() unless the state-variable points to a different function such as: mainMenu()
+  state();
   renderer.render(stage);
+}
+
+function play(){ }
+
+function addPlayer(playerId, p){
+  players[playerId] = new PixiSprite('player.png');
+  stage.addChild(players[playerId]);
+}
+
+function renderPlayer(playerId, p){
+  players[playerId].x = p.x;
+  players[playerId].y = p.y;
+}
+
+function attachSocketListeners(socket) {
+  socket.on('playerPositions', function(data) {
+    for (let key in data){
+      let value = data[key]
+
+      if (players[key] == undefined) {
+        addPlayer(key, value);
+      }
+
+      renderPlayer(key, value);
+    }
+  });
+
+  mouse.bindSocket(socket);
+  keyboard.bindSocket(socket);
 }
 
 
@@ -60,12 +90,11 @@ function gameLoop() {
 
 
 
-
-// Global helper functions
+// // Global helper functions
 function rotateToPoint(mx, my, px, py){
   var dist_Y = my - py;
   var dist_X = mx - px;
   var angle = Math.atan2(dist_Y,dist_X);
   return angle;
 }
-function radiansToDegrees(angle){ return angle * 180 / Math.PI; }
+// function radiansToDegrees(angle){ return angle * 180 / Math.PI; }

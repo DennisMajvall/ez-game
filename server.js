@@ -3,52 +3,62 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-const newGame = require('./public/js/game');
-
-
-
 app.use(express.static('./public'));
-
-io.on('connection', function(socket){
-  console.log('a user connected', socket.id);
-  socket.on('disconnect', function(){
-    console.log('a user disconnected', socket.id);
-  });
-});
 
 http.listen(3000, function(){
   console.log('Server is now listening to port 3000');
 });
 
-function sendTime() {
-    io.emit('time', { time: new Date().toJSON() });
-}
-
-// Send current time every 10 secs
-setInterval(sendTime, 10000);
-
-
-
 io.on('connection', function(socket){
-  console.log('a user connected');
-  newGame.addPlayer(new Player('player '+newGame.players.length));
+  onPlayerConnected(socket);
+  socket.on('disconnect', function(){
+    onPlayerDisconnected(socket);
+  });
 });
 
-function sendPlayerPositions(){
-  let msg = {};
-  for(let p of newGame.players) {
-    msg[p.name] = { x: p.x, y: p.y };
-  }
 
-  // Example result
-  // let msg = {
-  //   "player 0": {x: 300, y: 350},
-  //   "player 1": {x: 700, y: 240}
-  // };
+// Above this fucking line is the server-code (has nothing to do with ze game)
+
+const Game = require('./modules/game');
+
+const game = new Game();
+
+
+function onPlayerConnected(socket){
+  console.log('a user connected', socket.id);
+  game.addPlayer(socket.id);
+  sendPlayerPositions();
+
+  socket.on('keyboardDown', function(action){
+    game.players[socket.id].input[action] = true;
+  });
+  socket.on('keyboardUp', function(action){
+    game.players[socket.id].input[action] = false;
+  });
+
+  socket.on('rotation', function(data){
+    console.log(socket.id, 'rotation:', data);
+  });
+
+  socket.on('mouseDown', function(data){
+    console.log(socket.id, 'mouse-click:', data);
+  });
+}
+
+function onPlayerDisconnected(socket){
+  console.log('a user disconnected', socket.id);
+  game.removePlayer(socket.id);
+}
+
+
+function sendPlayerPositions(){
+  let msg = game.getPlayerPositions();
 
   io.emit('playerPositions', msg);
 }
 
+
 setInterval(()=>{
+  game.update();
   sendPlayerPositions();
-}, 100);
+}, 16);

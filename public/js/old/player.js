@@ -1,21 +1,21 @@
-class Player {
+module.exports = class Player {
   constructor(name){
-	this.sprite = new PixiSprite("player.png");
+	  this.sprite = new PixiSprite("player.png");
     stage.addChild(this.sprite);
 
     this.x = w_width/2;
     this.y = w_height/2;
-   
+
     this.richText = new PIXI.Text('');
     this.richText.x = 30;
     this.richText.y = 50;
     stage.addChild(this.richText);
-		
-		
+
+
 	new MovementInput(this.sprite);
 
-    stage.on("mousedown", this.shoot.bind(this));  
-	  
+    stage.on("mousedown", this.shoot.bind(this));
+
 
 	this.name = name;
 	this.hp = 150;
@@ -23,31 +23,31 @@ class Player {
     this.bullets = [];
     this.numTrees = 0;
     this.resourcesPerAttack = 2;
-	
-	
+
+
 
   }
 
-  
+
   set hp(value){ this._hp = value; this.updateStats(); }
   get hp(){ return this._hp; }
-  
+
   set x(value){ this.sprite.x = value; }
   set y(value){ this.sprite.y = value; }
   get x(){ return this.sprite.x; }
   get y(){ return this.sprite.y; }
 
-  
+
   update(){
     this.updateRotation();
     this.updateMovement();
     this.updateBullets();
   }
-  
-  
+
+
   updateStats(){
 	//var richText = new PIXI.Text('Name: '+this.name +' '+'HP: '+this.hp , styleBlue);
-	this.richText.text = 'Name: '+this.name +' '+'\nHP: '+this.hp; 
+	this.richText.text = 'Name: '+this.name +' '+'\nHP: '+this.hp;
   }
 
   updateRotation(){

@@ -1,6 +1,6 @@
 // 'Tree', 'Stone', 'Silver', 'Diamond'
 
-class ResourceNode {
+module.exports = class ResourceNode {
   constructor(type){
     // hp? nope
     // sprite? yes
@@ -31,6 +31,4 @@ class ResourceNode {
 
     // unlimited <3 <3 <3
   }
-
-
 }
