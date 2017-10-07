@@ -3,8 +3,8 @@ const Sprite = require('./sprite');
 module.exports = class Player {
   constructor(id){
     this.sprite = new Sprite();
-    this.x = 0;
-    this.y = 0;
+    this.x = Math.random()*10000;
+    this.y = Math.random()*10000;
     this.id = id;
     this.hp = 150;
     this.dmg = 10;
@@ -64,8 +64,16 @@ module.exports = class Player {
     if (this.input.up){ vy -= speed; }
     if (this.input.down){ vy += speed; }
 
-    this.x += vx;
-    this.y += vy;
+	let calcX = (this.x + vx);
+	let calcY = (this.y + vy);
+	
+	if(calcX < 10000 &&calcX > 0){
+      this.x += vx;
+	}
+	
+	if(calcY < 10000 && calcY > 0){
+      this.y += vy;
+	}
   }
 
   //TODO: Add cooldowns

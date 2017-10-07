@@ -20,16 +20,17 @@ io.on('connection', function(socket){
 // Above this fucking line is the server-code (has nothing to do with ze game)
 
 const Game = require('./modules/game');
-
 const game = new Game();
+
 
 
 function onPlayerConnected(socket){
   console.log('a user connected', socket.id);
   game.addPlayer(socket.id);
   sendPlayerPositions();
+  
   socket.emit('playerId', socket.id);
-
+  socket.emit('spawnResources', game.resourceNodes);
   socket.on('keyboardDown', function(action){
     game.players[socket.id].input[action] = true;
   });
@@ -38,9 +39,7 @@ function onPlayerConnected(socket){
   });
 
   socket.on('rotation', function(data){
-	  game.players[socket.id].setRotation(data);
-
-
+	game.players[socket.id].setRotation(data);
     console.log(socket.id, 'rotation:', data);
   });
 

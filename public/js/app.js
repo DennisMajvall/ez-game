@@ -26,14 +26,20 @@ stage.interactive = true;
 stage.position.x = renderer.width/2;
 stage.position.y = renderer.height/2;
 
+
+
+
+var underLayer = new PIXI.Graphics();
+underLayer.beginFill(0x6b8155); // NICE GREEN COLOR: rgb(107, 129, 85)
+underLayer.drawRect(-1000,-1000,12000,12000);
+underLayer.endFill();
+stage.addChild(underLayer);
+
 var background = new PIXI.Graphics();
 background.beginFill(0x768f5a); // NICE GREEN COLOR: rgb(118, 143, 90)
-background.drawRect(0,0,w_width,w_height);
+background.drawRect(0,0,10000,10000);
 background.endFill();
 stage.addChild(background);
-
-
-
 
 PIXI.loader
   .add("/images/player.png")
@@ -69,6 +75,7 @@ function play(){
   stage.pivot.x = player.x;
   stage.pivot.y = player.y;
   player.rotation = mouse.rotation;
+  updateMaggots();
 }
 
 function addPlayer(playerId, p){
@@ -89,6 +96,15 @@ function attachSocketListeners(socket) {
   socket.on('playerId', function(playerId) {
     player = players[playerId];
     player.id = playerId;
+  });
+
+  socket.on('spawnResources', function(resourceNodes) {
+	for(let resourceNode of resourceNodes){
+	  var resource = new PixiSprite(resourceNode.type+'.png');
+	  resource.x = resourceNode.x;
+	  resource.y = resourceNode.y;
+	  stage.addChild(resource);
+    }
   });
 
   socket.on('playerPositions', function(data) {
@@ -124,6 +140,67 @@ function attachSocketListeners(socket) {
   mouse.bindSocket(socket);
   keyboard.bindSocket(socket);
 }
+
+
+
+var maggots = [];
+
+
+
+for (var i = 0; i < 500; i++)
+{
+    var maggot =  PIXI.Sprite.fromImage('/images/maggot.png');
+    maggot.anchor.set(0.5);
+    stage.addChild(maggot);
+
+    maggot.direction = Math.random() * Math.PI * 2;
+    maggot.speed = 1;
+    maggot.turnSpeed = Math.random() - 0.8;
+
+    maggot.x = Math.random() * 10000;
+    maggot.y = Math.random() * 10000;
+
+    maggot.scale.set(1 + Math.random() * 0.3);
+    maggot.original = new PIXI.Point();
+	maggot.original.copy(maggot.scale);
+    maggots.push(maggot);
+
+}
+
+
+
+var count = 0;
+
+function updateMaggots() {
+    
+    count += 0.05;
+
+    for (var i = 0; i < maggots.length; i++) {
+        var maggot = maggots[i];
+
+        maggot.direction += maggot.turnSpeed * 0.01;
+        maggot.x += Math.sin(maggot.direction) * maggot.speed;
+        maggot.y += Math.cos(maggot.direction) * maggot.speed;
+
+        maggot.rotation = -maggot.direction - Math.PI/2;
+        maggot.scale.x = maggot.original.x + Math.sin(count) * 0.2;
+
+        // wrap the maggots around as the crawl
+        if (maggot.x < -1000) {
+            maggot.x += 12000;
+        }
+        else if (maggot.x > 12000) {
+            maggot.x -= 12000;
+        }
+
+        if (maggot.y < -1000) {
+            maggot.y += 12000;
+        }
+        else if (maggot.y > 12000) {
+            maggot.y -= 12000;
+        }
+    }
+};
 
 
 

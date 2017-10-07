@@ -1,12 +1,12 @@
 const Player = require('./player');
 const ResourceNode = require('./resource-node');
 
-module.exports = class Game {
+module.exports = class Game {	
   constructor(){
     this.players = {};
     this.resourceNodes = [];
 
-    for(let i = 0; i < 5; i++){
+    for(let i = 0; i < 100; i++){
       this.resourceNodes.push(new ResourceNode('tree'));
       this.resourceNodes.push(new ResourceNode('rock'));
     }

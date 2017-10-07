@@ -1,5 +1,6 @@
 // 'Tree', 'Stone', 'Silver', 'Diamond'
-const Sprite = require('./sprite');
+const gamefieldHeight = 9800;
+const gamefieldWidth = 9800;
 
 module.exports = class ResourceNode {
   constructor(type){
@@ -14,10 +15,8 @@ module.exports = class ResourceNode {
       this.amount = 200;
     }
 
-    this.sprite = new Sprite();
-
-    this.sprite.x = Math.random() * 0;
-    this.sprite.y = Math.random() * 0;
+    this.x = Math.random() * gamefieldWidth + 100;
+    this.y = Math.random() * gamefieldHeight + 100;
   }
 
   onAttacked(){

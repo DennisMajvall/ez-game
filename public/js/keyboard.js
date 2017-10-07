@@ -24,7 +24,9 @@ class Keyboard {
     this.keysDown[e.key] = true;
 
     let action = this.getActionFromKey(e);
-    if (action) { this.socket.emit('keyboardDown', action); }
+    if (action) { 
+	    this.socket.emit('keyboardDown', action); 
+	}
   }
 
   onKeyUp(e){

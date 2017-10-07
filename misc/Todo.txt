@@ -1,6 +1,6 @@
 ADD 
  - Add limit to open world and draw green to the whole world
- - Resources
+ - Resources(smarter spawning)
  - Collision
  - RenderText(Name, hp, resources)
  - startgame button
