@@ -1,6 +1,7 @@
 class Mouse {
   constructor(){
     if (Mouse.instance) { return Mouse.instance; }
+	this.rotation = 0;
   }
 
   bindSocket(socket){
@@ -8,15 +9,26 @@ class Mouse {
     this.socket = socket;
 
     renderer.plugins.interaction.on('pointerdown', (e)=>{
-      socket.emit('mouseDown', e.data.global);
+	var x = e.data.global.x/w_width;	
+	var y = e.data.global.y/w_height;
+   	
+      socket.emit('mouseDown', {x:x,y:y});
     });
 
-    renderer.plugins.interaction.on('pointermove', (e)=>{
-      let rotationAngle = rotateToPoint(e.data.global.x, e.data.global.y, w_width/2, w_height/2);
-      // rotation will be from -PI to +PI  (minus is North side)
-      // socket.emit('rotation', rotationAngle);
-    });
+	
+	setInterval (()=>{
+	  let rotationAngle = rotateToPoint(this.x, this.y, player.x, player.y);
+	
+	  if(rotationAngle != this.rotation){
+		this.rotation = rotationAngle;
+	    socket.emit('rotation', rotationAngle);
+	  }
+	}, 50);
+ //   renderer.plugins.interaction.on('pointermove', (e)=>{
+ // });
   }
+  
+  
 
   get x(){
     return renderer.plugins.interaction.mouse.global.x;

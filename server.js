@@ -37,11 +37,18 @@ function onPlayerConnected(socket){
   });
 
   socket.on('rotation', function(data){
+	  game.players[socket.id].setRotation(data);
+	  
+	  
     console.log(socket.id, 'rotation:', data);
   });
 
   socket.on('mouseDown', function(data){
-    console.log(socket.id, 'mouse-click:', data);
+	var bul = game.players[socket.id].shoot(data);  
+	if(bul){
+	  io.emit('bulletSpawn', {x:bul.x, y:bul.y, rotation:bul.rotation} );
+	}
+	console.log(socket.id, 'mouse-click:', data);
   });
 }
 

@@ -23,18 +23,17 @@ module.exports = class Player {
   get y(){ return this.sprite.y; }
 
   update(){
-    this.updateRotation();
     this.updateMovement();
     this.updateBullets();
   }
 
-  // to do
-  updateRotation(){
-    // this.sprite.rotation = rotateToPoint(mouse.x, mouse.y, this.x, this.y);
+  
+  setRotation(rotationPos){
+    this.sprite.rotation = rotationPos;
   }
 
-  spawnBullet(){
-    let rotation = this.sprite.rotation;
+  spawnBullet(mousePos){
+    let rotation = this.rotateToPoint(mousePos.x, mousePos.y, mousePos.x-0.5, mousePos.y-0.5);
     let bullet = {};
 
     const distanceFromCenter = 120;
@@ -43,6 +42,7 @@ module.exports = class Player {
     bullet.rotation = rotation;
 
     this.bullets.push(bullet);
+	return bullet;
   }
 
   updateBullets(){
@@ -69,7 +69,16 @@ module.exports = class Player {
   }
 
   //TODO: Add cooldowns
-  shoot() {
-    this.spawnBullet();
+  shoot(mousePos) {
+    return this.spawnBullet(mousePos);
   }
+  
+  // // Global helper functions
+  rotateToPoint(mx, my, px, py){
+	  var dist_Y = my - py;
+	  var dist_X = mx - px;
+	  var angle = Math.atan2(dist_Y,dist_X);
+	  return angle;
+  }
+// function radiansToDegrees(angle){ return angle * 180 / Math.PI; }
 }

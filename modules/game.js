@@ -28,7 +28,8 @@ module.exports = class Game {
 
       positions[playerId] = {
         x: p.x,
-        y: p.y
+        y: p.y,
+	    rotation: p.sprite.rotation
       };
     }
 
