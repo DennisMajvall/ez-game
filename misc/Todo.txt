@@ -1,0 +1,21 @@
+ADD 
+ - Remove disconnected player sprite
+ - Add limit to open world and draw green to the whole world
+ - Resources
+ - Collision
+ - RenderText(Name, hp, resources)
+ - PlayersNames above head
+ - Add melee weapons/resource weapons
+ - getResources
+ - Resource collision detection to net let resource stack to much on each other
+ - Add range to bullets(timed) & add cooldown
+ - Map 
+
+
+
+
+
+v2.0
+ - Add mages + healers
+ - Effects(lifesteal/poison/burn/slow)
+ - 
