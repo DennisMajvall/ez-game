@@ -11,9 +11,9 @@ class Keyboard {
     };
   }
 
-  bindSocket(socket){
+  bindSocket(){
     if (this.socket) { return; } // don't attach listeners more than once
-    this.socket = socket;
+    this.socket = app.socket;
 
     document.body.onkeydown = this.onKeyDown.bind(this);
     document.body.onkeyup = this.onKeyUp.bind(this);
@@ -24,9 +24,7 @@ class Keyboard {
     this.keysDown[e.key] = true;
 
     let action = this.getActionFromKey(e);
-    if (action) { 
-	    this.socket.emit('keyboardDown', action); 
-	}
+    if (action) { this.socket.emit('keyboardDown', action); }
   }
 
   onKeyUp(e){
