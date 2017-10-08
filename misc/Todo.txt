@@ -1,4 +1,4 @@
-ADD 
+ADD
  - Resources(smarter spawning)
  - Collision
  - RenderText(Name, hp, resources)
@@ -8,8 +8,8 @@ ADD
  - Add melee weapons/resource weapons
  - getResources
  - Resource collision detection to net let resource stack to much on each other
- - Add range to bullets(timed) & add cooldown
- - Map 
+ - add shooting cooldown
+ - Map
  - Limit to 1 browser per game
  - Beter images/sprites
  - Random AI(Animals = food)
@@ -27,11 +27,14 @@ v2.0
  - Keybinding
  - Party making
  - Guild making
- 
- 
- V3.0 
+
+
+ V3.0
  - Crafting
- 
- 
+
+
  v3D Switch to babylon.js
- 
+
+
+ DONE (latest changes at top)
+  - Add range to bullets(timed)
