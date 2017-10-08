@@ -4,21 +4,21 @@ class Mouse {
 	  this.rotation = 0;
   }
 
-  bindSocket(socket){
+  bindSocket(){
     if (this.socket) { return; } // don't attach listeners more than once
-    this.socket = socket;
+    this.socket = app.socket;
 
     renderer.plugins.interaction.on('pointerdown', (e)=>{
-      socket.emit('mouseDown', {x: this.x, y: this.y, rot: this.rotation});
+      this.socket.emit('mouseDown', {x: this.x, y: this.y, rot: this.rotation});
     });
 
 
     setInterval (()=>{
-      let rotationAngle = rotateToPoint(this.x, this.y, w_width/2, w_height/2);
+      let rotationAngle = rotateToPoint(this.x, this.y, renderer.width/2, renderer.height/2);
 
       if(rotationAngle != this.rotation){
         this.rotation = rotationAngle;
-        socket.emit('rotation', rotationAngle);
+        this.socket.emit('rotation', rotationAngle);
       }
     }, 50);
   }

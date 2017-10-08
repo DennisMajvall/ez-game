@@ -1,4 +1,4 @@
-ADD 
+ADD
  - Add limit to open world and draw green to the whole world
  - Resources(smarter spawning)
  - Collision
@@ -9,8 +9,8 @@ ADD
  - Add melee weapons/resource weapons
  - getResources
  - Resource collision detection to net let resource stack to much on each other
- - Add range to bullets(timed) & add cooldown
- - Map 
+ - add cooldown to shooting
+ - Map
  - Limit to 1 browser per game
  - Beter images/sprites
  - Random AI(Animals = food)
@@ -28,11 +28,14 @@ v2.0
  - Keybinding
  - Party making
  - Guild making
- 
- 
- V3.0 
+
+
+ V3.0
  - Crafting
- 
- 
+
+
  v3D Switch to babylon.js
- 
+
+
+DONE: (top = latest)
+- Add range to bullets(timed) &
