@@ -1,3 +1,4 @@
+const CollisionManager = require('./collision-manager');
 // 'Tree', 'Stone', 'Silver', 'Diamond'
 const gamefieldHeight = 9800;
 const gamefieldWidth = 9800;
@@ -17,6 +18,14 @@ module.exports = class ResourceNode {
 
     this.x = Math.random() * gamefieldWidth + 100;
     this.y = Math.random() * gamefieldHeight + 100;
+    this.radius = 50;
+    if (type == 'tree') { this.radius = 100; }
+    CollisionManager.registerResourceNode(this);
+  }
+
+
+  onCollision(somethingElse){
+    console.log('resource', this.type, 'collided with', somethingElse);
   }
 
   onAttacked(){

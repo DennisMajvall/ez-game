@@ -1,7 +1,8 @@
 const Player = require('./player');
 const ResourceNode = require('./resource-node');
+const CollisionManager = require('./collision-manager');
 
-module.exports = class Game {	
+module.exports = class Game {
   constructor(){
     this.players = {};
     this.resourceNodes = [];
@@ -61,5 +62,6 @@ module.exports = class Game {
     for(let playerId in this.players){
       this.players[playerId].update();
     }
+    CollisionManager.update();
   }
 }

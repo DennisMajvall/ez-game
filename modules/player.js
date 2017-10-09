@@ -1,4 +1,6 @@
 const Sprite = require('./sprite');
+const CollisionManager = require('./collision-manager');
+
 
 module.exports = class Player {
   constructor(id){
@@ -13,6 +15,8 @@ module.exports = class Player {
     this.numTrees = 0;
     this.resourcesPerAttack = 2;
     this.input = {};
+    this.radius = 90;
+    CollisionManager.registerPlayer(this);
   }
 
   set hp(value){ this._hp = value; }
@@ -28,6 +32,9 @@ module.exports = class Player {
     this.updateBullets();
   }
 
+  onCollision(somethingElse){
+    console.log('player collided with', somethingElse);
+  }
 
   setRotation(rotationPos){
     this.sprite.rotation = rotationPos;
@@ -67,11 +74,11 @@ module.exports = class Player {
 
 	let calcX = (this.x + vx);
 	let calcY = (this.y + vy);
-	
+
 	if(calcX < 10000 &&calcX > 0){
       this.x += vx;
 	}
-	
+
 	if(calcY < 10000 && calcY > 0){
       this.y += vy;
 	}
