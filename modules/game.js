@@ -20,13 +20,21 @@ module.exports = class Game {
     delete this.players[socketId];
   }
 
+  getPlayers(){
+    var shortPlayers = [];
+    for(let p in this.players){
+      shortPlayers.push({id: p.id, name:p.name});
+    }
+    return shortPlayers;
+  }
+
   getPlayerPositions(){
     let positions = {};
 
     for(let playerId in this.players){
       let p = this.players[playerId];
-
       positions[playerId] = {
+        name: p.name,
         x: p.x,
         y: p.y,
 	    rotation: p.sprite.rotation

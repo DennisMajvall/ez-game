@@ -2,6 +2,7 @@ const Sprite = require('./sprite');
 
 module.exports = class Player {
   constructor(id){
+    this.name = 'henk';
     this.sprite = new Sprite();
     this.x = Math.random()*10000;
     this.y = Math.random()*10000;

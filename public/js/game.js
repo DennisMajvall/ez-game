@@ -21,11 +21,25 @@ class Game {
   bindSocket(){
     if (this.socket) { return; } // don't attach listeners more than once
     this.socket = app.socket;
+    
+    this.socket.on('playerSetup', (playerSetup)=>{
+      for(let p of playerSetup.players){
+        this.addPlayer(p.id, p.name);
+      }
+    
+      this.player = this.players[playerSetup.player.id];
+      this.player.id = playerSetup.player.id;
 
-    this.socket.on('playerId', (playerId)=>{
-      this.player = this.players[playerId];
-      this.player.id = playerId;
+    
     });
+    
+    this.socket.on('newPlayer',(data)=>{
+      if(this.players[data.playerId] == undefined) {
+        this.addPlayer(data.playerId, data.name);
+      }
+    });
+
+
 
     this.socket.on('spawnResources', (resourceNodes)=>{
       for(let resourceNode of resourceNodes){
@@ -45,6 +59,7 @@ class Game {
     this.socket.on('bulletSpawn', this.addBullet.bind(this));
 
     this.socket.on('removePlayer', (data)=>{
+      stage.removeChild(this.players[data].nameText);
       stage.removeChild(this.players[data]);
     });
   }
@@ -96,18 +111,25 @@ class Game {
     }, seconds * 1000);
   }
 
-  addPlayer(playerId, p){
+  addPlayer(playerId, playerName){
     this.players[playerId] = new PixiSprite('player.png');
+    this.players[playerId].nameText = new PIXI.Text(playerName);
+    this.players[playerId].nameText.anchor.set(0.5, 0.5);
+
+    stage.addChild(this.players[playerId].nameText);
     stage.addChild(this.players[playerId]);
   }
 
   renderPlayer(playerId, p){
-    if (this.players[playerId] == undefined) {
-      this.addPlayer(playerId, p);
-    }
+    //if (this.players[playerId] == undefined) {
+    //    this.addPlayer(playerId);
+    //}
 
     this.players[playerId].x = p.x;
     this.players[playerId].y = p.y;
+
+    this.players[playerId].nameText.x = this.players[playerId].x;
+    this.players[playerId].nameText.y = (this.players[playerId].y-150);
 
     if (playerId != this.player.id) {
       this.players[playerId].rotation = p.rotation;
