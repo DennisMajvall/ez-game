@@ -22,9 +22,9 @@ class Game {
     if (this.socket) { return; } // don't attach listeners more than once
     this.socket = app.socket;
     
-    this.socket.on('playerSetup', (playerSetup)=>{
+	this.socket.on('playerSetup', (playerSetup)=>{
       for(let p of playerSetup.players){
-        this.addPlayer(p.id, p.name);
+        this.addPlayer(p.playerId, p.name);
       }
     
       this.player = this.players[playerSetup.player.playerId];
@@ -32,9 +32,7 @@ class Game {
     });
     
     this.socket.on('newPlayer',(data)=>{
-      if(this.players[data.playerId] == undefined) {
-        this.addPlayer(data.playerId, data.name);
-      }
+      this.addPlayer(data.playerId, data.name);
     });
 
 
@@ -92,7 +90,7 @@ class Game {
     bullet.vx = Math.cos(bullet.rotation) * speed;
     bullet.vy = Math.sin(bullet.rotation) * speed;
     this.bullets.push(bullet);
-
+	
     stage.addChild(bullet);
 
     // Removes it after n seconds
@@ -110,19 +108,20 @@ class Game {
   }
 
   addPlayer(playerId, playerName){
-    this.players[playerId] = new PixiSprite('player.png');
-    this.players[playerId].nameText = new PIXI.Text(playerName);
-    this.players[playerId].nameText.anchor.set(0.5, 0.5);
+	if(this.players[playerId] == undefined) {      
+	  this.players[playerId] = new PixiSprite('player.png');
+      this.players[playerId].nameText = new PIXI.Text(playerName);
+      this.players[playerId].nameText.anchor.set(0.5, 0.5);
 
-    stage.addChild(this.players[playerId].nameText);
-    stage.addChild(this.players[playerId]);
+      stage.addChild(this.players[playerId].nameText);
+      stage.addChild(this.players[playerId]);
+	}
   }
 
   renderPlayer(playerId, p){
     //if (this.players[playerId] == undefined) {
     //    this.addPlayer(playerId);
     //}
-
     this.players[playerId].x = p.x;
     this.players[playerId].y = p.y;
 

@@ -27,7 +27,7 @@ const game = new Game();
 function onPlayerConnected(socket){
   console.log('a user connected', socket.id);
   game.addPlayer(socket.id);
-  io.emit('newPlayer', {playerId:socket.id, name: game.players[socket.id].name});
+  socket.broadcast.emit('newPlayer', {playerId:socket.id, name: game.players[socket.id].name});
   
   socket.emit('playerSetup', {player:{playerId:socket.id, name: game.players[socket.id].name}, players:game.getPlayers()});
   sendPlayerPositions();

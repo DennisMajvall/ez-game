@@ -22,8 +22,9 @@ module.exports = class Game {
 
   getPlayers(){
     var shortPlayers = [];
-    for(let p in this.players){
-      shortPlayers.push({id: p.id, name:p.name});
+    for(let playerId in this.players){
+	  let p = this.players[playerId];
+      shortPlayers.push({playerId: p.id, name:p.name});
     }
     return shortPlayers;
   }
