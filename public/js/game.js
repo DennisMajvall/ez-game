@@ -27,10 +27,8 @@ class Game {
         this.addPlayer(p.id, p.name);
       }
     
-      this.player = this.players[playerSetup.player.id];
-      this.player.id = playerSetup.player.id;
-
-    
+      this.player = this.players[playerSetup.player.playerId];
+      this.player.id = playerSetup.player.playerId;
     });
     
     this.socket.on('newPlayer',(data)=>{
