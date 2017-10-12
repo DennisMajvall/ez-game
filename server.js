@@ -26,13 +26,22 @@ const game = new Game();
 
 function onPlayerConnected(socket){
   console.log('a user connected', socket.id);
-  game.addPlayer(socket.id);
+  socket.on('playerStart',(playerName)=>{ 
+    game.addPlayer(socket.id, playerName)
+    startGame(socket);  
+  });
+ }
+
+function startGame(socket){
   socket.broadcast.emit('newPlayer', {playerId:socket.id, name: game.players[socket.id].name});
-  
   socket.emit('playerSetup', {player:{playerId:socket.id, name: game.players[socket.id].name}, players:game.getPlayers()});
   sendPlayerPositions();
 
   socket.emit('spawnResources', game.resourceNodes);
+
+
+  ///TODO Maybe add resources on server and clientside. only send resource ammount @start of the game and then update it clientside and on server let the collisions automatically update it.
+  //socket.on('getResource', {stone: game.players[socket.id].stone, wood:game.players[socket.id]});
 
   socket.on('keyboardDown', function(action){
     game.players[socket.id].input[action] = true;
@@ -51,7 +60,6 @@ function onPlayerConnected(socket){
     if(bul){
       io.emit('bulletSpawn', {x:bul.x, y:bul.y, rotation:bul.rotation} );
     }
-    console.log(socket.id, 'mouse-click:', data);
   });
 }
 

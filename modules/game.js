@@ -13,8 +13,8 @@ module.exports = class Game {
     }
   }
 
-  addPlayer(socketId){
-    this.players[socketId] = new Player(socketId);
+  addPlayer(socketId, playerName){
+    this.players[socketId] = new Player(socketId, playerName);
   }
 
   removePlayer(socketId){

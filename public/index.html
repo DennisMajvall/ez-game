@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html lang="en">
+
 <head>
 	<title>Pixi test</title>
 	<meta charset="utf-8"/>
@@ -17,13 +18,32 @@
 	<script src="/js/maggots.js" defer></script>
 	<script src="/js/game.js" defer></script>
 	<script src="/js/app.js" defer></script>
+
+
+	<script>
+
+    	function startGame(element){
+			let PlayerName = document.getElementById('txtName').value;
+			console.log('name: '+PlayerName);
+		 	element.parentNode.remove(element);
+			if(PlayerName != undefined){
+				app.AppStart(PlayerName);
+			}else{
+				console.log('unknown started the game');
+				app.AppStart('Unknown');
+			}
+	  	}
+	</script>
 </head>
 
 <body>
-
   <div id="display">
-
   </div>
-
+  <div id="canvasControls" class="canvasControl" >
+	<div style="position:absolute; top:50%; left:40%;">
+		<input id="txtName" type="text" placeholder="Name" > </input>
+		<input id="btStartGame" type="button" class="button crisp" onclick="startGame(this.parentNode)" value="Start game"></input>
+	</div>
+ </div>
 </body>
 </html>

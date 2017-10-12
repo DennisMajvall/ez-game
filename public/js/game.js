@@ -18,20 +18,22 @@ class Game {
     this.maggots = new Maggots();
   }
 
-  bindSocket(){
+  bindSocket(playerName){
     if (this.socket) { return; } // don't attach listeners more than once
     this.socket = app.socket;
-    
-	this.socket.on('playerSetup', (playerSetup)=>{
+    this.socket.emit('playerStart', playerName);
+	  this.socket.on('playerSetup', (playerSetup)=>{
       for(let p of playerSetup.players){
         this.addPlayer(p.playerId, p.name);
       }
     
       this.player = this.players[playerSetup.player.playerId];
       this.player.id = playerSetup.player.playerId;
+      this.startGame();
     });
     
     this.socket.on('newPlayer',(data)=>{
+      console.log('new player'+ data.name)
       this.addPlayer(data.playerId, data.name);
     });
 
@@ -46,6 +48,15 @@ class Game {
       }
     });
 
+
+    this.socket.on('removePlayer', (data)=>{
+      stage.removeChild(this.players[data].nameText);
+      stage.removeChild(this.players[data]);
+    });
+  }
+
+  //After binding socket and completing the setup start the game.
+  startGame(){
     this.socket.on('playerPositions', (data)=>{
       for (let key in data){
         this.renderPlayer(key, data[key]);
@@ -53,11 +64,6 @@ class Game {
     });
 
     this.socket.on('bulletSpawn', this.addBullet.bind(this));
-
-    this.socket.on('removePlayer', (data)=>{
-      stage.removeChild(this.players[data].nameText);
-      stage.removeChild(this.players[data]);
-    });
   }
 
   update(){

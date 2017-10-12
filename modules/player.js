@@ -3,8 +3,8 @@ const CollisionManager = require('./collision-manager');
 
 
 module.exports = class Player {
-  constructor(id){
-    this.name = 'henk';
+  constructor(id, name){
+    this.name = name;
     this.sprite = new Sprite();
     this.x = Math.random()*10000;
     this.y = Math.random()*10000;

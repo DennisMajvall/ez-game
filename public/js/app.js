@@ -17,7 +17,7 @@ class App {
 
     this.loadTextures().load((a,b,c)=> {
       this.game.initPostLoad();
-      this.connectToServer();
+      
       this.gameLoop();
     });
   }
@@ -47,9 +47,9 @@ class App {
       .add("/images/maggot.png");
   }
 
-  connectToServer() {
+  connectToServer(playerName) {
     this.socket = io();
-    this.game.bindSocket();
+    this.game.bindSocket(playerName);
     mouse.bindSocket();
     keyboard.bindSocket();
   }
@@ -60,6 +60,10 @@ class App {
     this.state();
     renderer.render(stage);
     requestAnimationFrame(this.gameLoop.bind(this));
+  }
+
+  AppStart(playerName){
+    this.connectToServer(playerName);
   }
 }
 
