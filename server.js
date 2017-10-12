@@ -26,13 +26,13 @@ const game = new Game();
 
 function onPlayerConnected(socket){
   console.log('a user connected', socket.id);
-  socket.on('playerStart',(playerName)=>{ 
+    socket.on('playerStart',(playerName)=>{ 
     game.addPlayer(socket.id, playerName)
-    startGame(socket);  
+    joinGame(socket);  
   });
  }
 
-function startGame(socket){
+function joinGame(socket){
   socket.broadcast.emit('newPlayer', {playerId:socket.id, name: game.players[socket.id].name});
   socket.emit('playerSetup', {player:{playerId:socket.id, name: game.players[socket.id].name}, players:game.getPlayers()});
   sendPlayerPositions();

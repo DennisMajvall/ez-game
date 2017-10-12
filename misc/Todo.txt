@@ -1,10 +1,7 @@
-ADD
+V1.0
  - Resources(smarter spawning)
  - Collision
  - RenderText(Name, hp, resources)
- - startgame button
- - Username input
- - PlayersNames above head
  - Add melee weapons/resource weapons
  - getResources
  - Resource collision detection to net let resource stack to much on each other
@@ -38,3 +35,6 @@ v2.0
 
  DONE (latest changes at top)
   - Add range to bullets(timed)
+  - PlayersNames above head
+  - startgame button
+  - Username input

@@ -68,6 +68,16 @@ class App {
 }
 
 
+function startGame(element){
+	let PlayerName = document.getElementById('txtName').value;
+	element.parentNode.remove(element);
+	if(PlayerName != undefined){
+  	app.AppStart(PlayerName);
+	}else{
+	  app.AppStart('Unknown');
+  }
+}
+
 // // Global helper functions
 function radiansToDegrees(angle){ return angle * 180 / Math.PI; }
 function rotateToPoint(mx, my, px, py){
