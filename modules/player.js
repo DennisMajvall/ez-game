@@ -1,6 +1,6 @@
 const Sprite = require('./sprite');
 const CollisionManager = require('./collision-manager');
-
+const Bullet = require('./bullet');
 
 module.exports = class Player {
   constructor(id, name){
@@ -15,7 +15,7 @@ module.exports = class Player {
     this.numTrees = 0;
     this.resourcesPerAttack = 2;
     this.input = {};
-    this.radius = 90;
+    this.radius = 40;
     CollisionManager.registerPlayer(this);
   }
 
@@ -58,29 +58,7 @@ module.exports = class Player {
     this.sprite.rotation = rotationPos;
   }
 
-  spawnBullet(mouse){
-    let rotation = mouse.rot;
-    let bullet = {};
 
-    const distanceFromCenter = 120;
-    bullet.x = this.x + Math.cos(rotation) * distanceFromCenter;
-    bullet.y = this.y + Math.sin(rotation) * distanceFromCenter;
-    bullet.rotation = rotation;
-    bullet.dmg = this.dmg;
-    bullet.owner = this;
-
-    this.bullets.push(bullet);
-	  return bullet;
-  }
-
-  updateBullets(){
-    const speed = 10;
-
-    for(let b of this.bullets){
-      b.x += Math.cos(b.rotation) * speed;
-      b.y += Math.sin(b.rotation) * speed;
-    }
-  }
 
   updateMovement(){
     const speed = 5;
@@ -106,7 +84,18 @@ module.exports = class Player {
 
   //TODO: Add cooldowns
   shoot(mousePos) {
-    return this.spawnBullet(mousePos);
+    let bullet = new Bullet(mousePos, this);
+    this.bullets.push(bullet);
+    return bullet;
+  }
+
+  //Update bullets > if bullet hits something remove it from array
+  updateBullets(){
+   for(let i= this.bullets.length -1; i>=0; i--){
+     if(this.bullets[i].update() == false){
+       this.bullets.splice(i, 1);
+     }
+    }
   }
 
   // // Global helper functions

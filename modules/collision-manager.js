@@ -5,9 +5,8 @@
 */
 
 class Circle {
-  constructor(target, type, identifier = '') {
+  constructor(target, type) {
     this.type = type;
-    this.identifier = identifier;
     this.onCollision = target.onCollision && target.onCollision.bind(target);
     this.target = target;
   }
@@ -17,7 +16,7 @@ class Circle {
   get radius() { return this.target.radius; }
 
   // Overrides what happens when we console.log on this object
-  inspect(){ return `${this.type} - ${this.identifier} (${Math.round(this.x)},${Math.round(this.y)}) radius: ${this.radius}`; }
+  inspect(){ return `${this.type} (${Math.round(this.x)},${Math.round(this.y)}) radius: ${this.radius}`; }
 }
 
 module.exports = new class CollisionManager {
@@ -33,14 +32,34 @@ module.exports = new class CollisionManager {
   update(){
     // Disabled for now since it's not finished yet.
     this.updateTwo(this.players, this.resourceNodes);
+    this.updateTwo(this.players, this.bullets);
   }
 
   registerPlayer(p){
-    this.players.push(new Circle(p, 'Player', p.id));
+    let c = new Circle(p, 'Player');
+    this.players.push(c);
+    return c;
   }
 
   registerResourceNode(r){
-    this.resourceNodes.push(new Circle(r, 'ResourceNode', r.type));
+    let c = new Circle(r, 'ResourceNode')
+    this.resourceNodes.push(c);
+    return c;
+  }
+
+  registerBullet(b){
+    let c = new Circle(b, 'Bullet')
+    this.bullets.push(c);
+    return c;
+  }
+
+  removeBullet(b){
+
+
+    let i = this.bullets.findIndex((data)=>{return (data.target == b)});
+    if(i != -1){
+      this.bullets.splice(i,1);
+    }
   }
 
   distBetween(a, b){

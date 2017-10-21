@@ -19,7 +19,10 @@ module.exports = class ResourceNode {
     this.x = Math.random() * gamefieldWidth + 100;
     this.y = Math.random() * gamefieldHeight + 100;
     this.radius = 45;
-    if (type == 'tree') { this.radius = 100; }
+    if (type == 'tree') { 
+      this.radius = 100; 
+    }
+    
     CollisionManager.registerResourceNode(this);
   }
 
