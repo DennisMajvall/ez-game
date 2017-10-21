@@ -26,12 +26,12 @@ class Game {
       for(let p of playerSetup.players){
         this.addPlayer(p.playerId, p.name);
       }
-    
+
       this.player = this.players[playerSetup.player.playerId];
       this.player.id = playerSetup.player.playerId;
       this.startGame();
     });
-    
+
     this.socket.on('newPlayer',(data)=>{
       console.log('new player'+ data.name)
       this.addPlayer(data.playerId, data.name);
@@ -96,7 +96,7 @@ class Game {
     bullet.vx = Math.cos(bullet.rotation) * speed;
     bullet.vy = Math.sin(bullet.rotation) * speed;
     this.bullets.push(bullet);
-	
+
     stage.addChild(bullet);
 
     // Removes it after n seconds
@@ -114,14 +114,30 @@ class Game {
   }
 
   addPlayer(playerId, playerName){
-	if(this.players[playerId] == undefined) {      
-	  this.players[playerId] = new PixiSprite('player.png');
-      this.players[playerId].nameText = new PIXI.Text(playerName);
-      this.players[playerId].nameText.anchor.set(0.5, 0.5);
+    if(this.players[playerId] == undefined) {
 
-      stage.addChild(this.players[playerId].nameText);
-      stage.addChild(this.players[playerId]);
-	}
+      // Make the player-circle
+      let player = new PIXI.Graphics();
+      let playerRadius = 40;
+      player.lineStyle(4, 0x35354d);
+      player.beginFill(0x7c5d4f);
+      player.drawCircle(0, 0, playerRadius);
+
+      // Add shotgun as a child to player
+      let shotgun = new PixiSprite('shotgun.png');
+      shotgun.anchor.set(0, 0.5);
+      shotgun.scale.x = shotgun.scale.y = 0.25;
+      player.addChild(shotgun);
+
+      // Add name (not as a child) to player
+      player.nameText = new PIXI.Text(playerName);
+      player.nameText.anchor.set(0.5, 0.5);
+
+
+      this.players[playerId] = player;
+      stage.addChild(player);
+      stage.addChild(player.nameText);
+    }
   }
 
   renderPlayer(playerId, p){
@@ -133,6 +149,7 @@ class Game {
 
     this.players[playerId].nameText.x = this.players[playerId].x;
     this.players[playerId].nameText.y = (this.players[playerId].y-150);
+
 
     if (playerId != this.player.id) {
       this.players[playerId].rotation = p.rotation;

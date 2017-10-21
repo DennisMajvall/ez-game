@@ -5,8 +5,9 @@
 */
 
 class Circle {
-  constructor(target, type) {
+  constructor(target, type, identifier = '') {
     this.type = type;
+    this.identifier = identifier;
     this.onCollision = target.onCollision && target.onCollision.bind(target);
     this.target = target;
   }
@@ -16,7 +17,7 @@ class Circle {
   get radius() { return this.target.radius; }
 
   // Overrides what happens when we console.log on this object
-  inspect(){ return this.type; }
+  inspect(){ return `${this.type} - ${this.identifier} (${Math.round(this.x)},${Math.round(this.y)}) radius: ${this.radius}`; }
 }
 
 module.exports = new class CollisionManager {
@@ -31,15 +32,15 @@ module.exports = new class CollisionManager {
 
   update(){
     // Disabled for now since it's not finished yet.
-    // this.updateTwo(this.players, this.resourceNodes);
+    this.updateTwo(this.players, this.resourceNodes);
   }
 
   registerPlayer(p){
-    this.players.push(new Circle(p, 'Player: ' + p.id));
+    this.players.push(new Circle(p, 'Player', p.id));
   }
 
   registerResourceNode(r){
-    this.resourceNodes.push(new Circle(r, 'ResourceNode: ' + r.type));
+    this.resourceNodes.push(new Circle(r, 'ResourceNode', r.type));
   }
 
   distBetween(a, b){
@@ -56,9 +57,11 @@ module.exports = new class CollisionManager {
   updateTwo(arrA, arrB){
     for (let a of arrA){
       for (let b of arrB){
-        if (this.distBetween(a,b) < this.radius(a,b)){
-          let done = a.onCollision && a.onCollision(b);
-          !done && b.onCollision && a.onCollision(a);
+        let distance = this.distBetween(a,b);
+        if (distance <= this.radius(a,b)){
+          distance = Math.sqrt(distance);
+          let done = a.onCollision && a.onCollision(b, distance);
+          !done && b.onCollision && b.onCollision(a, distance);
           if(done) { break; }
         }
       }

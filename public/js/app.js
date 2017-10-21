@@ -17,7 +17,7 @@ class App {
 
     this.loadTextures().load((a,b,c)=> {
       this.game.initPostLoad();
-      
+
       this.gameLoop();
     });
   }
@@ -40,7 +40,8 @@ class App {
 
   loadTextures(){
     return PIXI.loader
-      .add("/images/player.png")
+      .add("/images/shotgun.png")
+      // .add("/images/player.png")
       .add("/images/tree.png")
       .add("/images/bullet.png")
       .add("/images/rock.png")

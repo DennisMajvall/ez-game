@@ -32,8 +32,24 @@ module.exports = class Player {
     this.updateBullets();
   }
 
-  onCollision(somethingElse){
-    console.log('player collided with', somethingElse);
+  onCollision(other, distanceCollided){
+    if (other.type == 'ResourceNode'){
+      let combR = this.radius + other.radius;
+      let distToMove = combR - distanceCollided;
+      console.log('distanceCollided', distanceCollided, 'combR', combR);
+      let dir = Math.atan2(other.y - this.y, other.x - this.x);
+
+      let iLikeToMoveItMoveIt = {
+        x: Math.cos(dir) * distToMove,
+        y: Math.sin(dir) * distToMove
+      };
+
+      this.x -= iLikeToMoveItMoveIt.x;
+      this.y -= iLikeToMoveItMoveIt.y;
+      console.log('lol', distToMove);
+    } else {
+      console.log('player collided with', );
+    }
   }
 
   setRotation(rotationPos){
