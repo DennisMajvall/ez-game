@@ -32,11 +32,10 @@ module.exports = class Player {
     this.updateBullets();
   }
 
-  onCollision(other, distanceCollided){
+  onCollision(other, distanceBetween){
     if (other.type == 'ResourceNode'){
       let combR = this.radius + other.radius;
-      let distToMove = combR - distanceCollided;
-      console.log('distanceCollided', distanceCollided, 'combR', combR);
+      let distToMove = combR - distanceBetween;
       let dir = Math.atan2(other.y - this.y, other.x - this.x);
 
       let iLikeToMoveItMoveIt = {
@@ -46,9 +45,12 @@ module.exports = class Player {
 
       this.x -= iLikeToMoveItMoveIt.x;
       this.y -= iLikeToMoveItMoveIt.y;
-      console.log('lol', distToMove);
+    } else if (other.type == 'Bullet'){
+      let bullet = other.target;
+      this.hp -= bullet.dmg;
+      console.log('Bullet HIT, dmg:', bullet.dmg, 'shooter:', bullet.owner.name, 'HP left:', this.hp);
     } else {
-      console.log('player collided with', );
+      console.log('player collided with', other);
     }
   }
 
@@ -64,6 +66,8 @@ module.exports = class Player {
     bullet.x = this.x + Math.cos(rotation) * distanceFromCenter;
     bullet.y = this.y + Math.sin(rotation) * distanceFromCenter;
     bullet.rotation = rotation;
+    bullet.dmg = this.dmg;
+    bullet.owner = this;
 
     this.bullets.push(bullet);
 	  return bullet;
@@ -88,16 +92,16 @@ module.exports = class Player {
     if (this.input.up){ vy -= speed; }
     if (this.input.down){ vy += speed; }
 
-	let calcX = (this.x + vx);
-	let calcY = (this.y + vy);
+    let calcX = (this.x + vx);
+    let calcY = (this.y + vy);
 
-	if(calcX < 10000 &&calcX > 0){
+    if(calcX < 10000 &&calcX > 0){
       this.x += vx;
-	}
+    }
 
-	if(calcY < 10000 && calcY > 0){
+    if(calcY < 10000 && calcY > 0){
       this.y += vy;
-	}
+    }
   }
 
   //TODO: Add cooldowns
