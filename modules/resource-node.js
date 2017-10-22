@@ -25,7 +25,7 @@ module.exports = class ResourceNode {
   onCollision(somethingElse){
     if (somethingElse.type == 'Bullet'){
       let bullet = somethingElse.target;
-      this.onAttacked(bullet.owner, bullet.resourcesPerHit);
+      this.onAttacked(bullet.weapon.player, bullet.weapon.resourcesPerHit);
     }
   }
 

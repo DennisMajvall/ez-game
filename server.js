@@ -17,7 +17,10 @@ io.on('connection', function(socket){
 });
 
 
-// Above this fucking line is the server-code (has nothing to do with ze game)
+// Above this line is the server-code (has nothing to do with the game)
+
+global.json = {};
+global.json.weapons = require('./public/json/weapons.json');
 
 const Game = require('./modules/game');
 const game = new Game();
@@ -26,9 +29,9 @@ const game = new Game();
 
 function onPlayerConnected(socket){
   console.log('a user connected', socket.id);
-    socket.on('playerStart',(playerName)=>{ 
+  socket.on('playerStart',(playerName)=>{
     game.addPlayer(socket, playerName)
-    joinGame(socket);  
+    joinGame(socket);
   });
  }
 
@@ -43,7 +46,7 @@ function joinGame(socket){
   socket.emit('playerSetup', {player:{playerId:socket.id, name: game.players[socket.id].name}, players:game.getPlayers()});
   sendPlayerPositions();
 
-  socket.emit('spawnResources', game.resourceNodes);  
+  socket.emit('spawnResources', game.resourceNodes);
 
 
   // TODO Maybe add resources on server and clientside. only send resource ammount @start of the game and then update it clientside and on server let the collisions automatically update it.

@@ -1,20 +1,28 @@
 const Sprite = require('./sprite');
 const CollisionManager = require('./collision-manager');
-const Bullet = require('./bullet');
+const Weapon = require('./weapon');
 
 module.exports = class Player {
   constructor(socket, name){
+    this.socket = socket;
     this.name = name;
+
     this.sprite = new Sprite();
     this.x = Math.random()*10000;
     this.y = Math.random()*10000;
-    this.socket = socket;
-    this.hp = 150;
-    this.dmg = 10;
-    this.bullets = [];
-    this.resources = { tree: 0, stone: 0, silver: 0, diamond: 0 };
     this.input = {};
+
+    this.hp = 150;
     this.radius = 40;
+    this.resources = { tree: 0, stone: 0, silver: 0, diamond: 0 };
+    this.weapons = [
+      new Weapon(this, 'axe'),
+      new Weapon(this, 'shotgun')
+    ];
+    // Change the index below to switch starting weapon
+    // TODO: use hotkeys and onclick-buttons.
+    this.currentWeapon = this.weapons[1];
+
     CollisionManager.registerPlayer(this);
   }
 
@@ -28,33 +36,43 @@ module.exports = class Player {
 
   update(){
     this.updateMovement();
-    this.updateBullets();
+    this.currentWeapon.update();
   }
 
-  onCollision(other, distanceBetween){
+  shoot(mousePos) {
+    return this.currentWeapon.shoot(mousePos.rot);
+  }
+
+  setRotation(rotationPos){
+    this.sprite.rotation = rotationPos;
+  }
+
+  onCollision(other, distanceBetween, combinedRadius){
     if (other.type == 'ResourceNode'){
-      let combR = this.radius + other.radius;
-      let distToMove = combR - distanceBetween;
-      let dir = Math.atan2(other.y - this.y, other.x - this.x);
-
-      let iLikeToMoveItMoveIt = {
-        x: Math.cos(dir) * distToMove,
-        y: Math.sin(dir) * distToMove
-      };
-
-      this.x -= iLikeToMoveItMoveIt.x;
-      this.y -= iLikeToMoveItMoveIt.y;
+      this.collideWithResourceNode(other, distanceBetween, combinedRadius);
     } else if (other.type == 'Bullet'){
       let bullet = other.target;
-      this.hp -= bullet.dmg;
-      console.log('Bullet HIT, dmg:', bullet.dmg, 'shooter:', bullet.owner.name, 'HP left:', this.hp);
+      if (bullet.weapon.player == this) {
+        return true;
+      }
+      this.hp -= bullet.weapon.dmg;
+      console.log(bullet.weapon.player.name, 'dealt', bullet.weapon.dmg, 'dmg to', this.name, 'HP left:', this.hp);
     } else {
       console.log('player collided with', other);
     }
   }
 
-  setRotation(rotationPos){
-    this.sprite.rotation = rotationPos;
+  collideWithResourceNode(other, distanceBetween, combinedRadius){
+    let distToMove = combinedRadius - distanceBetween;
+    let dir = Math.atan2(other.y - this.y, other.x - this.x);
+
+    let distancesToMove = {
+      x: Math.cos(dir) * distToMove,
+      y: Math.sin(dir) * distToMove
+    };
+
+    this.x -= distancesToMove.x;
+    this.y -= distancesToMove.y;
   }
 
   updateMovement(){
@@ -76,22 +94,6 @@ module.exports = class Player {
 
     if(calcY < 10000 && calcY > 0){
       this.y += vy;
-    }
-  }
-
-  //TODO: Add cooldowns
-  shoot(mousePos) {
-    let bullet = new Bullet(mousePos.rot, this);
-    this.bullets.push(bullet);
-    return bullet;
-  }
-
-  //Update bullets > if bullet hits something remove it from array
-  updateBullets(){
-   for(let i= this.bullets.length -1; i>=0; i--){
-     if(this.bullets[i].update() == false){
-       this.bullets.splice(i, 1);
-     }
     }
   }
 }

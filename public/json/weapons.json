@@ -1,0 +1,29 @@
+{
+  "default": {
+    "name": "this default wep only specifies the default stats of all weapons, do not use it in-game.",
+    "dmg": 0,
+    "cooldown": 1,
+    "bulletSpeed": 0,
+    "resourcesPerHit": 0,
+    "radius": 0,
+    "startingOffset": 0,
+    "projectileDuration": 0.1
+  },
+
+  "shotgun": {
+    "name": "Shotgun",
+    "dmg": 10,
+    "cooldown": 1,
+    "bulletSpeed": 10,
+    "startingOffset": 120,
+    "projectileDuration": 2
+  },
+  "axe": {
+    "name": "Axe",
+    "dmg": 2,
+    "cooldown": 0.5,
+    "resourcesPerHit": 2,
+    "radius": 30,
+    "startingOffset": 50
+  }
+}
