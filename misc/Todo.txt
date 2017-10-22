@@ -1,42 +1,60 @@
-V1.0
- - Resources(smarter spawning)
- - remove bullets from being drawn after collision
- - RenderText(Name, hp, resources)
- - Add melee weapons/resource weapons
- - getResources
- - Resource collision detection to net let resource stack to much on each other
- - add shooting cooldown
- - Map
- - Limit to 1 browser per game
- - Beter images/sprites
- - Random AI(Animals = food)
-
+v1.0
+  - Render (Healthbar)
+  - Add melee weapons/resource weapons
+  - add shooting cooldown
+  - Mini-Map
+  - Client-side collision - self-player vs resources - push player
+  - Client-side collision - bullets vs all - remove bullet
+  - Build walls
+  - Build tower that shoots nearby hostiles
+  - Better images/sprites
+  - Add roaming animals that give food on death
+  - Resources Should not spawn inside of eachother
+  - Make maggots splash when stepped upon
+  - Levelling, XP Gained from gathering and killing
 
 v2.0
- - Start menu with serverlist + Options > follow on facebook and twitter
- - Chat functionality
- - Registration
- - Save stats in database
- - Big balance FOR LONGTERM GAMEPLAY
- - Add mages + healers
- - Effects(lifesteal/poison/burn/slow)
- - Particle effects
- - Keybinding
- - Party making
- - Guild making
+  - Limit to 1 browser per game
+  - Start menu with serverlist
+  - Chat functionality
+  - Registration
+  - Save stats in database
+  - Big balance FOR LONGTERM GAMEPLAY
+  - Add mages + healers
+  - Effects (lifesteal/poison/burn/slow etc)
+  - Particle effects
+  - Options Menu: Keybinding
+  - Party making
+  - Guild making
+  - Follow on facebook and twitter
 
 
- V3.0
- - Crafting
+ v3.0
+  - Crafting
 
+Ideas:
+  - v3D Switch to babylon.js
+  - Spawn mobs that attack the player's base(s)
+  - Have your own private Island to build on (progression)
+  - Talent Tree
+  - Have mob-camps spread out with revival timers.
+  - Boss mobs
+  - Build units (make a 5-man-ish army)
 
- v3D Switch to babylon.js
+Building and Spell ideas:
+  - Gatherer (static building that atks resource-nodes)
+  - Cannon (splash dmg)
+  - Harpoon (piercing projectile)
+  - Flame-thrower (close-range burn-damage)
+  - Aura-Buffs (healing, dmg, speed, CC etc)
+  - Traps (damage, slows, ensnares)
 
 
  DONE (latest changes at top)
-  - Collision 
+  - RenderText (Resources)
+  - Get Resources
+  - Collision-detection
   - Startgame button
   - Username input
-  - Add range to bullets(timed)
-  - PlayersNames above head
-
+  - RenderText (Names)
+  - Add range to bullets (timed)
