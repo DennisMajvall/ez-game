@@ -8,8 +8,8 @@ module.exports = class Game {
     this.resourceNodes = [];
 
     for(let i = 0; i < 100; i++){
-      this.resourceNodes.push(new ResourceNode('tree'));
-      this.resourceNodes.push(new ResourceNode('rock'));
+      this.resourceNodes.push( new ResourceNode('tree',  this.removeResourceNode.bind(this)) );
+      this.resourceNodes.push( new ResourceNode('stone', this.removeResourceNode.bind(this)) );
     }
   }
 
@@ -19,6 +19,13 @@ module.exports = class Game {
 
   removePlayer(socketId){
     delete this.players[socketId];
+  }
+
+  removeResourceNode(r){
+    let i = this.resourceNodes.indexOf(r);
+    if (i != -1) {
+      this.resourceNodes.splice(i, 1);
+    }
   }
 
   getPlayers(){
@@ -46,22 +53,11 @@ module.exports = class Game {
     return positions;
   }
 
-  hitPlayer(hitter, taker){
-	  taker.hp -= hitter.dmg;
-
-	  if(taker.hp <=0){
-		  this.playerDied(hitter);
-    }
-  }
-
-  playerDied(player){
-    //dead animation;
-  }
-
   update() {
     for(let playerId in this.players){
       this.players[playerId].update();
     }
+
     CollisionManager.update();
   }
 }

@@ -33,6 +33,7 @@ module.exports = new class CollisionManager {
     // Disabled for now since it's not finished yet.
     this.updateTwo(this.players, this.resourceNodes);
     this.updateTwo(this.players, this.bullets);
+    this.updateTwo(this.bullets, this.resourceNodes);
   }
 
   registerPlayer(p){
@@ -54,11 +55,16 @@ module.exports = new class CollisionManager {
   }
 
   removeBullet(b){
-
-
     let i = this.bullets.findIndex((data)=>{return (data.target == b)});
     if(i != -1){
-      this.bullets.splice(i,1);
+      this.bullets.splice(i, 1);
+    }
+  }
+
+  removeResourceNode(r){
+    let i = this.resourceNodes.findIndex((data)=>{return (data.target == r)});
+    if(i != -1){
+      this.resourceNodes.splice(i, 1);
     }
   }
 
