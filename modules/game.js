@@ -14,6 +14,9 @@ module.exports = class Game {
   }
 
   addPlayer(socketId, playerName){
+    if(playerName == undefined || playerName == ''){
+      playerName = 'Unknown';
+    }
     this.players[socketId] = new Player(socketId, playerName);
   }
 
