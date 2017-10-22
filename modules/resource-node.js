@@ -17,7 +17,6 @@ module.exports = class ResourceNode {
     this.radius = 45;
     if (type == 'tree') {
       this.radius = 100;
-      this.amount = 15;
     }
 
     CollisionManager.registerResourceNode(this);
