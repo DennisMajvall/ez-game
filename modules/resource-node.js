@@ -37,6 +37,8 @@ module.exports = class ResourceNode {
 
     player.resources[this.type] += numResources;
 
+    player.socket.emit('resources', player.resources);
+
     if (this.amount != undefined && this.amount <= 0) {
       CollisionManager.removeResourceNode(this);
       this.removeFunction(this);

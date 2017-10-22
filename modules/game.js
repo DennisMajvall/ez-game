@@ -11,13 +11,13 @@ module.exports = class Game {
       this.resourceNodes.push( new ResourceNode('tree',  this.removeResourceNode.bind(this)) );
       this.resourceNodes.push( new ResourceNode('stone', this.removeResourceNode.bind(this)) );
     }
-  }
+  }   
 
-  addPlayer(socketId, playerName){
+  addPlayer(socket, playerName){
     if(playerName == undefined || playerName == ''){
       playerName = 'Unknown';
     }
-    this.players[socketId] = new Player(socketId, playerName);
+    this.players[socket.id] = new Player(socket, playerName);
   }
 
   removePlayer(socketId){
@@ -34,8 +34,8 @@ module.exports = class Game {
   getPlayers(){
     var shortPlayers = [];
     for(let playerId in this.players){
-	  let p = this.players[playerId];
-      shortPlayers.push({playerId: p.id, name:p.name});
+	    let p = this.players[playerId];
+      shortPlayers.push({playerId: p.socket.id  , name:p.name});
     }
     return shortPlayers;
   }

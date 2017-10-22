@@ -12,7 +12,7 @@ class Game {
     background.drawRect(0,0,10000,10000);
     background.endFill();
     stage.addChild(background);
-  }
+  } 
 
   initPostLoad(){
     this.maggots = new Maggots();
@@ -64,6 +64,20 @@ class Game {
     });
 
     this.socket.on('bulletSpawn', this.addBullet.bind(this));
+
+
+    this.socket.on('resources', this.setResources.bind(this));
+  }
+
+  
+  setResources(resources){
+    //Maybe needed later
+    //this.player.resources = resources;
+
+    $("#tree").text(resources.tree);
+    $("#stone").text(resources.stone);
+    $("#silver").text(resources.silver);
+    $("#diamond").text(resources.diamond);
   }
 
   update(){
@@ -79,6 +93,7 @@ class Game {
       b.y += b.vy;
     }
   }
+
 
   updateCameraMovement(){
     stage.pivot.x = this.player.x;

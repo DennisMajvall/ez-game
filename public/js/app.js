@@ -44,7 +44,7 @@ class App {
       // .add("/images/player.png")
       .add("/images/tree.png")
       .add("/images/bullet.png")
-      .add("/images/rock.png")
+      .add("/images/stone.png")
       .add("/images/maggot.png");
   }
 

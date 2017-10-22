@@ -3,12 +3,12 @@ const CollisionManager = require('./collision-manager');
 const Bullet = require('./bullet');
 
 module.exports = class Player {
-  constructor(id, name){
+  constructor(socket, name){
     this.name = name;
     this.sprite = new Sprite();
     this.x = Math.random()*10000;
     this.y = Math.random()*10000;
-    this.id = id;
+    this.socket = socket;
     this.hp = 150;
     this.dmg = 10;
     this.bullets = [];

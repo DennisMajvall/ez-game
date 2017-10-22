@@ -8,7 +8,8 @@
 	<link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" type="image/png" href="/favicon.png">
-	
+   
+  <script src="/js/jquery.slim.min.js" defer></script> 
 	<script src="/js/pixi.js" defer></script>
 	<script src="/js/pixi-sprite.js" defer></script>
 	<script src="/socket.io.js" defer></script>
@@ -22,17 +23,33 @@
 
 <body>
   <div id="display">
+    <div class="overlay">
+        <div class="resources">
+			 		<div>
+						Tree: <span id="tree"></span>
+					</div>		
+					<div>
+						Stone: <span id="stone"></span>
+					</div>
+					<div>
+						Silver: <span id="silver"></span>
+					</div>
+					<div>
+						Diamond: <span id="diamond"></span>
+					</div>
+        </div>
+    </div>
   </div>
-  <div id="canvasControls" class="canvasControl" >
 
-	<div class="alignCenter">
-		<h1>Ez game</h1>
-		<br />
-		<br />
+  <div class="startMenu" >
+	  <div class="alignCenter">
+		  <h1>Ez game</h1>
+		  <br />
+		  <br />
 		
-		<input id="txtName" type="text" placeholder="Name" > </input>
-		<input id="btStartGame" type="button" class="button crisp" onclick="startGame(this.parentNode)" value="Start game"></input>
-	</div>
- </div>
+		  <input id="txtName" type="text" placeholder="Name" > </input>
+	  	<input id="btStartGame" type="button" class="button crisp" onclick="startGame(this.parentNode)" value="Start game"></input>
+	  </div>
+  </div>
 </body>
 </html>
