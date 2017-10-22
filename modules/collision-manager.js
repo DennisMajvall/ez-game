@@ -23,6 +23,7 @@ module.exports = new class CollisionManager {
   constructor() {
     if (CollisionManager.instance) { return CollisionManager.instance; }
     CollisionManager.instance = this;
+    CollisionManager.checkAgainst = this.checkAgainst;
 
     this.players = [];
     this.resourceNodes = [];
@@ -82,14 +83,45 @@ module.exports = new class CollisionManager {
   updateTwo(arrA, arrB){
     for (let a of arrA){
       for (let b of arrB){
+
         let distance = this.distBetween(a,b);
-        if (distance <= this.radius(a,b)){
+        let combinedRadius = this.radius(a,b);
+
+        // If hit
+        if (distance <= combinedRadius){
+
+          // Only sqrt after a hit has occured
           distance = Math.sqrt(distance);
-          let done = a.onCollision && a.onCollision(b, distance);
-          !done && b.onCollision && b.onCollision(a, distance);
+          combinedRadius = Math.sqrt(combinedRadius);
+
+          // Let the involved objects handle the collision.
+          let done = a.onCollision && a.onCollision(b, distance, combinedRadius);
+          !done && b.onCollision && b.onCollision(a, distance, combinedRadius);
+
+          // If either collision function returns true, don't check against others in arrB.
           if(done) { break; }
         }
       }
     }
+  }
+
+  // Returns false OR an object with keys: other, distance, combinedRadius
+  checkAgainst(a, arrayName) {
+    let arrB = this[arrayName];
+    if (arrB === undefined) { console.error('ERROR, CollisionManager.checkAgainst:', arrayName); }
+
+    for (let other of arrB){
+      let distance = this.distBetween(a, other);
+      let combinedRadius = this.radius(a, other);
+
+      if (distance <= combinedRadius){
+        distance = Math.sqrt(distance);
+        combinedRadius = Math.sqrt(combinedRadius);
+
+        return { other: other, distance, combinedRadius };
+      }
+    }
+
+    return false;
   }
 }

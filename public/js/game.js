@@ -12,7 +12,7 @@ class Game {
     background.drawRect(0,0,10000,10000);
     background.endFill();
     stage.addChild(background);
-  } 
+  }
 
   initPostLoad(){
     this.maggots = new Maggots();
@@ -69,7 +69,7 @@ class Game {
     this.socket.on('resources', this.setResources.bind(this));
   }
 
-  
+
   setResources(resources){
     //Maybe needed later
     //this.player.resources = resources;

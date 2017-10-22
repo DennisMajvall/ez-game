@@ -67,20 +67,17 @@ class App {
     this.connectToServer(playerName);
   }
 }
+// Start the application
+let app = new App();
 
 
 function startGame(element){
-	let PlayerName = document.getElementById('txtName').value;
-	element.parentNode.remove(element);
-	if(PlayerName != undefined && PlayerName == ''){
-    console.log('player:', PlayerName);
-  	app.AppStart(PlayerName);
-	}else{
-	  app.AppStart('Unknown');
-  }
+  let playerName = $('#txtName').val() || '';
+  $(element).parent().hide();
+  app.AppStart(playerName);
 }
 
-// // Global helper functions
+// Global helper functions
 function radiansToDegrees(angle){ return angle * 180 / Math.PI; }
 function rotateToPoint(mx, my, px, py){
   var dist_Y = my - py;
@@ -88,6 +85,3 @@ function rotateToPoint(mx, my, px, py){
   var angle = Math.atan2(dist_Y,dist_X);
   return angle;
 }
-
-// Start the application
-let app = new App();

@@ -32,6 +32,12 @@ function onPlayerConnected(socket){
   });
  }
 
+function onPlayerDisconnected(socket){
+  console.log('a user disconnected', socket.id);
+  game.removePlayer(socket.id);
+  io.emit('removePlayer',socket.id);
+}
+
 function joinGame(socket){
   socket.broadcast.emit('newPlayer', {playerId:socket.id, name: game.players[socket.id].name});
   socket.emit('playerSetup', {player:{playerId:socket.id, name: game.players[socket.id].name}, players:game.getPlayers()});
@@ -40,8 +46,7 @@ function joinGame(socket){
   socket.emit('spawnResources', game.resourceNodes);  
 
 
-  ///TODO Maybe add resources on server and clientside. only send resource ammount @start of the game and then update it clientside and on server let the collisions automatically update it.
-  //socket.on('getResource', {stone: game.players[socket.id].stone, wood:game.players[socket.id]});
+  // TODO Maybe add resources on server and clientside. only send resource ammount @start of the game and then update it clientside and on server let the collisions automatically update it.
 
   socket.on('keyboardDown', function(action){
     game.players[socket.id].input[action] = true;
@@ -61,12 +66,6 @@ function joinGame(socket){
       io.emit('bulletSpawn', {x:bul.x, y:bul.y, rotation:bul.rotation} );
     }
   });
-}
-
-function onPlayerDisconnected(socket){
-  console.log('a user disconnected', socket.id);
-  game.removePlayer(socket.id);
-  io.emit('removePlayer',socket.id);
 }
 
 
