@@ -12,6 +12,7 @@ v1.0
   - Resources Should not spawn inside of eachother
   - Make maggots splash when stepped upon
   - Levelling, XP Gained from gathering and killing
+  - Do a small perfomance-test.
 
 v2.0
   - Limit to 1 browser per game
@@ -23,6 +24,7 @@ v2.0
   - Add mages + healers
   - Effects (lifesteal/poison/burn/slow etc)
   - Particle effects
+  - Do a small perfomance-test.
   - Options Menu: Keybinding
   - Party making
   - Guild making
@@ -31,6 +33,7 @@ v2.0
 
  v3.0
   - Crafting
+  - Do a small perfomance-test.
 
 Ideas:
   - v3D Switch to babylon.js
