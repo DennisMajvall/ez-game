@@ -12,8 +12,7 @@ module.exports = class Player {
     this.hp = 150;
     this.dmg = 10;
     this.bullets = [];
-    this.numTrees = 0;
-    this.resourcesPerAttack = 2;
+    this.resources = { tree: 0, stone: 0, silver: 0, diamond: 0 };
     this.input = {};
     this.radius = 40;
     CollisionManager.registerPlayer(this);
@@ -58,8 +57,6 @@ module.exports = class Player {
     this.sprite.rotation = rotationPos;
   }
 
-
-
   updateMovement(){
     const speed = 5;
     let vx = 0;
@@ -84,7 +81,7 @@ module.exports = class Player {
 
   //TODO: Add cooldowns
   shoot(mousePos) {
-    let bullet = new Bullet(mousePos, this);
+    let bullet = new Bullet(mousePos.rot, this);
     this.bullets.push(bullet);
     return bullet;
   }
@@ -97,13 +94,4 @@ module.exports = class Player {
      }
     }
   }
-
-  // // Global helper functions
-  rotateToPoint(mx, my, px, py){
-	  var dist_Y = my - py;
-	  var dist_X = mx - px;
-	  var angle = Math.atan2(dist_Y,dist_X);
-	  return angle;
-  }
-// function radiansToDegrees(angle){ return angle * 180 / Math.PI; }
 }

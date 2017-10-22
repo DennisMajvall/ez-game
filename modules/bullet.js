@@ -3,22 +3,23 @@ const CollisionManager = require('./collision-manager');
 
 
 module.exports = class Bullet {
-  constructor(mouse, player){
-    let rotation = mouse.rot;
-    this.speed = 10;
-
+  constructor(rotation, player){
     const distanceFromCenter = 120;
     this.x = player.x + Math.cos(rotation) * distanceFromCenter;
     this.y = player.y + Math.sin(rotation) * distanceFromCenter;
     this.rotation = rotation;
-    this.dmg = 10;
     this.owner = player;
-    this.radius = 5;
     this.alive = true;
+
+    this.dmg = 10;
+    this.resourcesPerHit = 2;
+    this.speed = 10;
+    this.radius = 5;
+
     CollisionManager.registerBullet(this);
   }
 
-  onCollision(somethingElse){  
+  onCollision(somethingElse){
       this.alive = false;
       CollisionManager.removeBullet(this);
   }
