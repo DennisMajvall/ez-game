@@ -148,7 +148,7 @@ class Game {
     this.players[playerId].y = p.y;
 
     this.players[playerId].nameText.x = this.players[playerId].x;
-    this.players[playerId].nameText.y = (this.players[playerId].y-150);
+    this.players[playerId].nameText.y = (this.players[playerId].y-115);
 
 
     if (playerId != this.player.id) {

@@ -1,6 +1,6 @@
 V1.0
  - Resources(smarter spawning)
- - Collision
+ - remove bullets from being drawn after collision
  - RenderText(Name, hp, resources)
  - Add melee weapons/resource weapons
  - getResources
@@ -34,7 +34,9 @@ v2.0
 
 
  DONE (latest changes at top)
+  - Collision 
+  - Startgame button
+  - Username input
   - Add range to bullets(timed)
   - PlayersNames above head
-  - startgame button
-  - Username input
+

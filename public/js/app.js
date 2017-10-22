@@ -72,7 +72,8 @@ class App {
 function startGame(element){
 	let PlayerName = document.getElementById('txtName').value;
 	element.parentNode.remove(element);
-	if(PlayerName != undefined){
+	if(PlayerName != undefined && PlayerName == ''){
+    console.log('player:', PlayerName);
   	app.AppStart(PlayerName);
 	}else{
 	  app.AppStart('Unknown');
