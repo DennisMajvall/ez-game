@@ -65,7 +65,7 @@ function joinGame(socket){
 
   socket.on('mouseDown', function(data){
     var bul = game.players[socket.id].shoot(data);
-    if(bul){
+    if(bul && bul.weapon.projectileDuration){
       io.emit('bulletSpawn', {x:bul.x, y:bul.y, rotation:bul.rotation} );
     }
   });

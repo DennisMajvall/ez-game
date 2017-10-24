@@ -7,7 +7,7 @@
     "resourcesPerHit": 0,
     "radius": 0,
     "startingOffset": 0,
-    "projectileDuration": 0.1
+    "projectileDuration": 0
   },
 
   "shotgun": {

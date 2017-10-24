@@ -21,7 +21,9 @@ class Game {
   bindSocket(playerName){
     if (this.socket) { return; } // don't attach listeners more than once
     this.socket = app.socket;
+
     this.socket.emit('playerStart', playerName);
+
 	  this.socket.on('playerSetup', (playerSetup)=>{
       for(let p of playerSetup.players){
         this.addPlayer(p.playerId, p.name);
@@ -33,11 +35,8 @@ class Game {
     });
 
     this.socket.on('newPlayer',(data)=>{
-      console.log('new player'+ data.name)
       this.addPlayer(data.playerId, data.name);
     });
-
-
 
     this.socket.on('spawnResources', (resourceNodes)=>{
       for(let resourceNode of resourceNodes){
@@ -64,8 +63,6 @@ class Game {
     });
 
     this.socket.on('bulletSpawn', this.addBullet.bind(this));
-
-
     this.socket.on('resources', this.setResources.bind(this));
   }
 
@@ -74,10 +71,9 @@ class Game {
     //Maybe needed later
     //this.player.resources = resources;
 
-    $("#tree").text(resources.tree);
-    $("#stone").text(resources.stone);
-    $("#silver").text(resources.silver);
-    $("#diamond").text(resources.diamond);
+    for (let name in resources) {
+      $(`#${name}`).text(resources[name]);
+    }
   }
 
   update(){
@@ -156,15 +152,11 @@ class Game {
   }
 
   renderPlayer(playerId, p){
-    //if (this.players[playerId] == undefined) {
-    //    this.addPlayer(playerId);
-    //}
     this.players[playerId].x = p.x;
     this.players[playerId].y = p.y;
 
     this.players[playerId].nameText.x = this.players[playerId].x;
     this.players[playerId].nameText.y = (this.players[playerId].y-115);
-
 
     if (playerId != this.player.id) {
       this.players[playerId].rotation = p.rotation;

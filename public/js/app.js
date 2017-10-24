@@ -26,7 +26,8 @@ class App {
     renderer = PIXI.autoDetectRenderer({
       width: window.innerWidth,
       height: window.innerHeight,
-      backgroundColor: 0x6b8155
+      backgroundColor: 0x6b8155,
+      antialias: true
     });
     document.getElementById('display').appendChild(renderer.view);
   }
@@ -41,7 +42,6 @@ class App {
   loadTextures(){
     return PIXI.loader
       .add("/images/shotgun.png")
-      // .add("/images/player.png")
       .add("/images/tree.png")
       .add("/images/bullet.png")
       .add("/images/stone.png")
