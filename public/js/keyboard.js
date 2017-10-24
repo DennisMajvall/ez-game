@@ -7,7 +7,9 @@ class Keyboard {
       'up': [ 'w', 'arrowup'],
       'right': [ 'd', 'arrowright'],
       'down': [ 's', 'arrowdown'],
-      'left': [ 'a', 'arrowleft']
+      'left': [ 'a', 'arrowleft'],
+      'equip_1': [ '1', 'q'],
+      'equip_2': [ '2', 'e']
     };
   }
 
@@ -24,7 +26,12 @@ class Keyboard {
     this.keysDown[e.key] = true;
 
     let action = this.getActionFromKey(e);
-    if (action) { this.socket.emit('keyboardDown', action); }
+    if (action) {
+      this.socket.emit('keyboardDown', action);
+      if (this.keyListener){
+        this.keyListener(action);
+      }
+    }
   }
 
   onKeyUp(e){

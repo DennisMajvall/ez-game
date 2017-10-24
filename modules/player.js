@@ -13,15 +13,13 @@ module.exports = class Player {
     this.input = {};
 
     this.hp = 150;
-    this.radius = 40;
+    this.radius = 30;
     this.resources = { tree: 0, stone: 0, silver: 0, diamond: 0 };
     this.weapons = [
       new Weapon(this, 'axe'),
       new Weapon(this, 'shotgun')
     ];
-    // Change the index below to switch starting weapon
-    // TODO: use hotkeys and onclick-buttons.
-    this.currentWeapon = this.weapons[1];
+    this.currentWeapon = this.weapons[0];
 
     CollisionManager.registerPlayer(this);
   }
@@ -36,7 +34,7 @@ module.exports = class Player {
 
   update(){
     this.updateMovement();
-    this.currentWeapon.update();
+    this.updateWeapons();
   }
 
   shoot(mousePos) {
@@ -95,5 +93,20 @@ module.exports = class Player {
     if(calcY < 10000 && calcY > 0){
       this.y += vy;
     }
+  }
+
+  updateWeapons(){
+    let w = this.weapons;
+    let i = false;
+    if (this.input.equip_1) { i = 0; }
+    else if (this.input.equip_2) { i = 1; }
+    // else if (this.input.equip_3) { i = 2; }
+    // else if (this.input.equip_4) { i = 3; }
+    // else if (this.input.equip_5) { i = 4; }
+
+    if (i !== false && w[i]){
+      this.currentWeapon = w[i];
+    }
+    this.currentWeapon.update();
   }
 }

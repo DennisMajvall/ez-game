@@ -31,6 +31,8 @@ class Game {
 
       this.player = this.players[playerSetup.player.playerId];
       this.player.id = playerSetup.player.playerId;
+      keyboard.keyListener = this.player.onKeyUp.bind(this.player);
+
       this.startGame();
     });
 
@@ -126,37 +128,13 @@ class Game {
 
   addPlayer(playerId, playerName){
     if(this.players[playerId] == undefined) {
-
-      // Make the player-circle
-      let player = new PIXI.Graphics();
-      let playerRadius = 40;
-      player.lineStyle(4, 0x35354d);
-      player.beginFill(0x7c5d4f);
-      player.drawCircle(0, 0, playerRadius);
-
-      // Add shotgun as a child to player
-      let shotgun = new PixiSprite('shotgun.png');
-      shotgun.anchor.set(0, 0.5);
-      shotgun.scale.x = shotgun.scale.y = 0.25;
-      player.addChild(shotgun);
-
-      // Add name (not as a child) to player
-      player.nameText = new PIXI.Text(playerName);
-      player.nameText.anchor.set(0.5, 0.5);
-
-
-      this.players[playerId] = player;
-      stage.addChild(player);
-      stage.addChild(player.nameText);
+      this.players[playerId] = new Player(playerId, playerName);
     }
   }
 
   renderPlayer(playerId, p){
     this.players[playerId].x = p.x;
     this.players[playerId].y = p.y;
-
-    this.players[playerId].nameText.x = this.players[playerId].x;
-    this.players[playerId].nameText.y = (this.players[playerId].y-115);
 
     if (playerId != this.player.id) {
       this.players[playerId].rotation = p.rotation;

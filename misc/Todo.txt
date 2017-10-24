@@ -1,6 +1,5 @@
 v1.0
   - Render (Healthbar)
-  - Add melee weapons/resource weapons
   - add shooting cooldown
   - Mini-Map
   - Client-side collision - self-player vs resources - push player
@@ -54,6 +53,7 @@ Building and Spell ideas:
 
 
  DONE (latest changes at top)
+  - Add melee weapons/resource weapons
   - RenderText (Resources)
   - Get Resources
   - Collision-detection

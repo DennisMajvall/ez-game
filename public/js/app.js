@@ -42,6 +42,7 @@ class App {
   loadTextures(){
     return PIXI.loader
       .add("/images/shotgun.png")
+      .add("/images/axe.png")
       .add("/images/tree.png")
       .add("/images/bullet.png")
       .add("/images/stone.png")
