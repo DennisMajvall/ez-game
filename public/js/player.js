@@ -22,25 +22,22 @@ class Player{
     this.nameText.anchor.set(0.5, 0.5);
 
 
-    //Create the health bar
     this.healthBar = new PIXI.Container();
     this.sprite.addChild(this.healthBar);
 
-    //Create the black background rectangle
-    let innerBar = new PIXI.Graphics();
-    innerBar.beginFill(0x000000);
-    innerBar.drawRect(-50, 0, 100, 8);
-    innerBar.endFill();
-    this.healthBar.addChild(innerBar);
+    let blackBackground = new PIXI.Graphics();
+    blackBackground.beginFill(0x000000);
+    blackBackground.drawRect(-50, 0, 100, 8);
+    blackBackground.endFill();
+    this.healthBar.addChild(blackBackground);
 
-    //Create the front red rectangle
-    let outerBar = new PIXI.Graphics();
-    outerBar.beginFill(0xFF3300);
-    outerBar.drawRect(-50, 0, 100, 8);
-    outerBar.endFill();
-    this.healthBar.addChild(outerBar);
+    let redHpBar = new PIXI.Graphics();
+    redHpBar.beginFill(0xFF3300);
+    redHpBar.drawRect(-50, 0, 100, 8);
+    redHpBar.endFill();
+    this.healthBar.addChild(redHpBar);
 
-    this.healthBar.outer = outerBar;
+    this.healthBar.outer = redHpBar;
 
 
 
@@ -53,7 +50,7 @@ class Player{
     let eq = false;
     if (action == 'equip_1') { eq = 'axe'; }
     else if (action == 'equip_2') { eq = 'shotgun'; }
-    else if(action == 'shoot'){ 
+    else if(action == 'click'){ 
       //set attack animation to 0 > if its between 0 & 1 then play animation else 
       //Start
       
@@ -67,7 +64,6 @@ class Player{
   set hp(value){ 
     this.healthBar.outer.width= value;
     this.healthBar.outer.x -= (this._hp-value)/2;
-    console.log(this.healthBar.outer.x);
     this._hp = value;
   }
   get hp(){ return this._hp; }
