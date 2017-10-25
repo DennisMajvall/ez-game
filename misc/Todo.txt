@@ -1,10 +1,9 @@
 v1.0
-  - Render (Healthbar)
   - add shooting cooldown
   - Mini-Map
   - Client-side collision - self-player vs resources - push player
   - Client-side collision - bullets vs all - remove bullet
-  - Build walls
+  - Build walls 
   - Build tower that shoots nearby hostiles
   - Better images/sprites
   - Add roaming animals that give food on death
@@ -12,6 +11,7 @@ v1.0
   - Make maggots splash when stepped upon
   - Levelling, XP Gained from gathering and killing
   - Do a small perfomance-test.
+  - deadscreen(restart game button + points on kill(KILLCOUNTER))
 
 v2.0
   - Limit to 1 browser per game
@@ -42,6 +42,9 @@ Ideas:
   - Have mob-camps spread out with revival timers.
   - Boss mobs
   - Build units (make a 5-man-ish army)
+  - Pets
+  - Mounts
+  - Achievements
 
 Building and Spell ideas:
   - Gatherer (static building that atks resource-nodes)
@@ -53,6 +56,7 @@ Building and Spell ideas:
 
 
  DONE (latest changes at top)
+  - Render (Healthbar)
   - Add melee weapons/resource weapons
   - RenderText (Resources)
   - Get Resources

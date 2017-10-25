@@ -8,11 +8,13 @@ module.exports = class Player {
     this.name = name;
 
     this.sprite = new Sprite();
-    this.x = Math.random()*10000;
-    this.y = Math.random()*10000;
+    this.x= 500;
+    this.y= 500;
+    //this.x = Math.random()*10000;
+    //this.y = Math.random()*10000;
     this.input = {};
 
-    this.hp = 150;
+    this.hp = 100;
     this.radius = 30;
     this.resources = { tree: 0, stone: 0, silver: 0, diamond: 0 };
     this.weapons = [
@@ -53,7 +55,15 @@ module.exports = class Player {
       if (bullet.weapon.player == this) {
         return true;
       }
+
+      if(this.hp <= 0){return true;}
+
       this.hp -= bullet.weapon.dmg;
+
+      this.socket.emit('updateHp', {id:this.socket.id, hp: this.hp});
+      this.socket.broadcast.emit('updateHp', {id:this.socket.id, hp: this.hp});
+
+      
       console.log(bullet.weapon.player.name, 'dealt', bullet.weapon.dmg, 'dmg to', this.name, 'HP left:', this.hp);
     } else {
       console.log('player collided with', other);

@@ -10,6 +10,9 @@ class Mouse {
 
     renderer.plugins.interaction.on('pointerdown', (e)=>{
       this.socket.emit('mouseDown', {x: this.x, y: this.y, rot: this.rotation});
+      if (this.mouseListener){
+        this.mouseListener("shoot");
+      }
     });
 
 

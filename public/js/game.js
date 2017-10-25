@@ -31,8 +31,8 @@ class Game {
 
       this.player = this.players[playerSetup.player.playerId];
       this.player.id = playerSetup.player.playerId;
-      keyboard.keyListener = this.player.onKeyUp.bind(this.player);
-
+      keyboard.keyListener = this.player.onAction.bind(this.player);
+      mouse.mouseListener = this.player.onAction.bind(this.player);
       this.startGame();
     });
 
@@ -52,7 +52,8 @@ class Game {
 
     this.socket.on('removePlayer', (data)=>{
       stage.removeChild(this.players[data].nameText);
-      stage.removeChild(this.players[data]);
+      stage.removeChild(this.players[data].sprite);
+      stage.removeChild(this.players[data].healthBar);
     });
   }
 
@@ -66,6 +67,16 @@ class Game {
 
     this.socket.on('bulletSpawn', this.addBullet.bind(this));
     this.socket.on('resources', this.setResources.bind(this));
+    
+    this.socket.on("updateHp",(data) =>{ 
+      //if(this.player.id == data.id){
+      //    this.player.set = data.hp;
+      //    console.log(this.player.name, this.players.hp); 
+      //}else{
+        this.players[data.id].hp = data.hp;
+        console.log(this.players[data.id].name, data.hp); 
+      //}
+    });
   }
 
 
