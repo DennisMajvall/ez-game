@@ -70,7 +70,6 @@ class Game {
     this.socket.on('resources', this.setResources.bind(this));
 
     this.socket.on("updateHp",(data) =>{
-      if (!this.players[data]) { return; }
       //if(this.player.id == data.id){
       //    this.player.set = data.hp;
       //    console.log(this.player.name, this.players.hp);
