@@ -5,6 +5,13 @@ let stage, renderer;
 let deltaTime = 1/60;
 
 // TODO: on resize event: change size of canvas etc..
+$(window).on('resize', function(){
+  if (!renderer) { return; }
+  let w = $(this);
+  renderer.resize(w.width(), w.height());
+  stage.position.x = renderer.width/2;
+  stage.position.y = renderer.height/2;
+});
 
 class App {
   constructor() {
