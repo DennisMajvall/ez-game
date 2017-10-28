@@ -15,6 +15,10 @@ class Mouse {
       }
     });
 
+    renderer.plugins.interaction.on('pointerup', (e)=>{
+      this.socket.emit('mouseUp', {x: this.x, y: this.y, rot: this.rotation});
+    });
+
 
     setInterval (()=>{
       let rotationAngle = rotateToPoint(this.x, this.y, renderer.width/2, renderer.height/2);

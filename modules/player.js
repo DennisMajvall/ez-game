@@ -29,6 +29,9 @@ module.exports = class Player {
   set hp(value){ this._hp = value; }
   get hp(){ return this._hp; }
 
+  set rotation(value){ this.sprite.rotation = value; }
+  get rotation(){ return this.sprite.rotation; }
+
   set x(value){ this.sprite.x = value; }
   set y(value){ this.sprite.y = value; }
   get x(){ return this.sprite.x; }
@@ -43,10 +46,6 @@ module.exports = class Player {
     return this.currentWeapon.shoot(mousePos.rot);
   }
 
-  setRotation(rotationPos){
-    this.sprite.rotation = rotationPos;
-  }
-
   onCollision(other, distanceBetween, combinedRadius){
     if (other.type == 'ResourceNode'){
       this.collideWithResourceNode(other, distanceBetween, combinedRadius);
@@ -57,9 +56,7 @@ module.exports = class Player {
       if (this.hp <= 0) { return true; }
 
       this.hp -= bullet.weapon.dmg;
-      this.socket.emit('updateHp', {id:this.socket.id, hp: this.hp});
-      this.socket.broadcast.emit('updateHp', {id:this.socket.id, hp: this.hp});
-
+      global.io.emit('updateHp', { id: this.socket.id, hp: this.hp });
       console.log(bullet.weapon.player.name, 'dealt', bullet.weapon.dmg, 'dmg to', this.name, 'HP left:', this.hp);
     } else {
       console.log('player collided with', other);

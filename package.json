@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "^4.16.1",
     "jquery": "^3.2.1",
+    "microtime": "^2.1.6",
     "pixi.js": "*",
     "socket.io": "^2.0.3"
   },

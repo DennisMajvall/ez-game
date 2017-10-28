@@ -6,16 +6,32 @@ module.exports = class Weapon {
     Object.assign(this, global.json.weapons.default, global.json.weapons[type]);
     this.player = player;
     this.bullets = [];
+    this.cooldownLeft = 0;
   }
 
   update(){
     this.updateBullets();
+    this.updateShooting();
   }
 
-  //TODO: Add cooldowns
+  updateShooting(){
+    if (this.player.input.shoot){
+      const bul = this.shoot(this.player.rotation);
+      if (bul && bul.weapon.projectileDuration){
+        global.io.emit('bulletSpawn', { x: bul.x, y: bul.y, rotation: bul.rotation });
+      }
+    }
+
+    this.cooldownLeft -= global.deltaTime;
+  }
+
   shoot(mouseRotation) {
-    let bullet = new Bullet(mouseRotation, this);
-    this.bullets.push(bullet);
+    let bullet = null;
+    if (this.cooldownLeft <= 0) {
+      bullet = new Bullet(mouseRotation, this);
+      this.bullets.push(bullet);
+      this.cooldownLeft = this.cooldown;
+    }
     return bullet;
   }
 

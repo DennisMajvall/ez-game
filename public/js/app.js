@@ -73,7 +73,7 @@ let app = new App();
 
 
 function startGame(element){
-  let playerName = $('#txtName').val() || '';
+  let playerName = $('#txtName').val() || 'Unknown';
   $(element).parent().hide();
   app.AppStart(playerName);
 }

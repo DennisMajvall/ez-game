@@ -1,11 +1,15 @@
 const Player = require('./player');
 const ResourceNode = require('./resource-node');
 const CollisionManager = require('./collision-manager');
+const microtime = require('microtime')
+
+global.deltaTime = 1/60;
 
 module.exports = class Game {
   constructor(){
     this.players = {};
     this.resourceNodes = [];
+    this.timeUpdated = microtime.now();
 
     for(let i = 0; i < 100; i++){
       this.resourceNodes.push( new ResourceNode('tree',  this.removeResourceNode.bind(this)) );
@@ -37,7 +41,7 @@ module.exports = class Game {
     return shortPlayers;
   }
 
-  getPlayerPositions(){
+  sendPlayerPositions(){
     let positions = {};
 
     for(let playerId in this.players){
@@ -50,7 +54,7 @@ module.exports = class Game {
       };
     }
 
-    return positions;
+    global.io.emit('playerPositions', positions);
   }
 
   update() {
@@ -59,5 +63,11 @@ module.exports = class Game {
     }
 
     CollisionManager.update();
+
+    const now = microtime.now();
+    global.deltaTime = (now - this.timeUpdated) / 1000000; // convert: microseconds
+    this.timeUpdated = now;
+
+    this.sendPlayerPositions();
   }
 }

@@ -3,6 +3,8 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+global.io = io;
+
 app.use(express.static('./public'));
 
 http.listen(3000, function(){
@@ -44,7 +46,6 @@ function onPlayerDisconnected(socket){
 function joinGame(socket){
   socket.broadcast.emit('newPlayer', {playerId:socket.id, name: game.players[socket.id].name});
   socket.emit('playerSetup', {player:{playerId:socket.id, name: game.players[socket.id].name}, players:game.getPlayers()});
-  sendPlayerPositions();
 
   socket.emit('spawnResources', game.resourceNodes);
 
@@ -59,25 +60,19 @@ function joinGame(socket){
     game.players[socket.id].input[action] = false;
   });
 
+  socket.on('mouseDown', function(mouseData){
+    game.players[socket.id].input['shoot'] = true;
+  });
+
+  socket.on('mouseUp', function(mouseData){
+    game.players[socket.id].input['shoot'] = false;
+  });
+
   socket.on('rotation', function(data){
-	  game.players[socket.id].setRotation(data);
+	  game.players[socket.id].rotation = data;
   });
-
-  socket.on('mouseDown', function(data){
-    var bul = game.players[socket.id].shoot(data);
-    if(bul && bul.weapon.projectileDuration){
-      io.emit('bulletSpawn', {x:bul.x, y:bul.y, rotation:bul.rotation} );
-    }
-  });
-}
-
-
-function sendPlayerPositions(){
-  let msg = game.getPlayerPositions();
-  io.emit('playerPositions', msg);
 }
 
 setInterval(()=>{
   game.update();
-  sendPlayerPositions();
 }, 16);
