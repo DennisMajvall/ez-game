@@ -1,13 +1,11 @@
 Bugs
-  - You can damage urself by hitting in front of you with a melee weapon.
 
 
 v1.0
-  - add shooting cooldown
   - Mini-Map
   - Client-side collision - self-player vs resources - push player
   - Client-side collision - bullets vs all - remove bullet
-  - Build walls 
+  - Build walls
   - Build tower that shoots nearby hostiles
   - Better images/sprites
   - Add roaming animals that give food on death
@@ -61,6 +59,8 @@ Building and Spell ideas:
 
 
  DONE (latest changes at top)
+  - Bugfix: Bullets stay in the game forever until collision
+  - add shooting cooldown
   - Added hands + rotation axe
   - Render (Healthbar)
   - Add melee weapons/resource weapons
