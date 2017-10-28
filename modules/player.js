@@ -52,18 +52,14 @@ module.exports = class Player {
       this.collideWithResourceNode(other, distanceBetween, combinedRadius);
     } else if (other.type == 'Bullet'){
       let bullet = other.target;
-      if (bullet.weapon.player == this) {
-        return true;
-      }
 
-      if(this.hp <= 0){return true;}
+      if (bullet.weapon.player.socket == this.socket) { return true; }
+      if (this.hp <= 0) { return true; }
 
       this.hp -= bullet.weapon.dmg;
-
       this.socket.emit('updateHp', {id:this.socket.id, hp: this.hp});
       this.socket.broadcast.emit('updateHp', {id:this.socket.id, hp: this.hp});
 
-      
       console.log(bullet.weapon.player.name, 'dealt', bullet.weapon.dmg, 'dmg to', this.name, 'HP left:', this.hp);
     } else {
       console.log('player collided with', other);
@@ -88,21 +84,16 @@ module.exports = class Player {
     let vx = 0;
     let vy = 0;
 
-    if (this.input.left){ vx -= speed; }
-    if (this.input.right){ vx += speed; }
-    if (this.input.up){ vy -= speed; }
-    if (this.input.down){ vy += speed; }
+    if (this.input.left)  { vx -= speed; }
+    if (this.input.right) { vx += speed; }
+    if (this.input.up)    { vy -= speed; }
+    if (this.input.down)  { vy += speed; }
 
     let calcX = (this.x + vx);
     let calcY = (this.y + vy);
 
-    if(calcX < 10000 &&calcX > 0){
-      this.x += vx;
-    }
-
-    if(calcY < 10000 && calcY > 0){
-      this.y += vy;
-    }
+    if(calcX < 10000 && calcX > 0) { this.x += vx; }
+    if(calcY < 10000 && calcY > 0) { this.y += vy; }
   }
 
   updateWeapons(){

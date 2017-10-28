@@ -67,14 +67,14 @@ class Game {
 
     this.socket.on('bulletSpawn', this.addBullet.bind(this));
     this.socket.on('resources', this.setResources.bind(this));
-    
-    this.socket.on("updateHp",(data) =>{ 
+
+    this.socket.on("updateHp",(data) =>{
       //if(this.player.id == data.id){
       //    this.player.set = data.hp;
-      //    console.log(this.player.name, this.players.hp); 
+      //    console.log(this.player.name, this.players.hp);
       //}else{
         this.players[data.id].hp = data.hp;
-        console.log(this.players[data.id].name, data.hp); 
+        console.log(this.players[data.id].name, data.hp);
       //}
     });
   }

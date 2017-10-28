@@ -19,7 +19,7 @@ module.exports = class Weapon {
     return bullet;
   }
 
-  //Update bullets - if bullet hits something remove it from array
+  // If bullet hits something or time runs out - remove it from the array
   updateBullets(){
    for(let i= this.bullets.length -1; i>=0; i--){
       if(this.bullets[i].update() == false){

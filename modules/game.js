@@ -11,12 +11,9 @@ module.exports = class Game {
       this.resourceNodes.push( new ResourceNode('tree',  this.removeResourceNode.bind(this)) );
       this.resourceNodes.push( new ResourceNode('stone', this.removeResourceNode.bind(this)) );
     }
-  }   
+  }
 
-  addPlayer(socket, playerName){
-    if(playerName == undefined || playerName == ''){
-      playerName = 'Unknown';
-    }
+  addPlayer(socket, playerName = 'Unknown'){
     this.players[socket.id] = new Player(socket, playerName);
   }
 
@@ -49,7 +46,7 @@ module.exports = class Game {
         name: p.name,
         x: p.x,
         y: p.y,
-	    rotation: p.sprite.rotation
+        rotation: p.sprite.rotation
       };
     }
 

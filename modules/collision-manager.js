@@ -31,7 +31,6 @@ module.exports = new class CollisionManager {
   }
 
   update(){
-    // Disabled for now since it's not finished yet.
     this.updateTwo(this.players, this.resourceNodes);
     this.updateTwo(this.players, this.bullets);
     this.updateTwo(this.bullets, this.resourceNodes);
@@ -79,7 +78,6 @@ module.exports = new class CollisionManager {
     const r = a.radius + b.radius;
     return r*r;
   }
-
   updateTwo(arrA, arrB){
     for (let a of arrA){
       for (let b of arrB){
