@@ -1,3 +1,7 @@
+Bugs
+  - You can damage urself by hitting in front of you with a melee weapon.
+
+
 v1.0
   - add shooting cooldown
   - Mini-Map
@@ -12,6 +16,7 @@ v1.0
   - Levelling, XP Gained from gathering and killing
   - Do a small perfomance-test.
   - deadscreen(restart game button + points on kill(KILLCOUNTER))
+  - Fix positioning of hands and rotation
 
 v2.0
   - Limit to 1 browser per game
@@ -56,6 +61,7 @@ Building and Spell ideas:
 
 
  DONE (latest changes at top)
+  - Added hands + rotation axe
   - Render (Healthbar)
   - Add melee weapons/resource weapons
   - RenderText (Resources)
