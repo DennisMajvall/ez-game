@@ -103,4 +103,33 @@ input[type=text], select {
 .resources{
   display:flex;
   flex-direction: column;
+  margin-top:10px;
+  margin-left:10px;
+  max-width: 150px;
+}
+
+.uiElement{
+	background-color: rgba(0, 0, 0, 0.25);
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	color: #fff;
+	padding: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 18px;
+}
+
+#CanvasMap{
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	display: inline-block;
+	width: 130px;
+	height: 130px;
+	pointer-events: all;
+	background-color: rgba(0, 0, 0, 0.25);
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
 }

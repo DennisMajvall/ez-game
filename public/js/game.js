@@ -3,6 +3,9 @@ class Game {
     this.player = {};
     this.players = {};
     this.bullets = [];
+    var canvas = document.getElementById("CanvasMap");
+    this.ctxMap = canvas.getContext("2d");
+    this.ctxMap.fillStyle="#D3D3D3";
     this.init();
   }
 
@@ -61,6 +64,7 @@ class Game {
   //After binding socket and completing the setup start the game.
   startGame(){
     this.socket.on('playerPositions', (data)=>{
+      this.ctxMap.clearRect(0,0,100,100);
       for (let key in data){
         this.renderPlayer(key, data[key]);
       }
@@ -147,9 +151,13 @@ class Game {
   renderPlayer(playerId, p){
     this.players[playerId].x = p.x;
     this.players[playerId].y = p.y;
-
     if (playerId != this.player.id) {
       this.players[playerId].rotation = p.rotation;
+      this.ctxMap.fillRect((p.x/100),(p.y/100),4,4);
+    }else{
+      this.ctxMap.fillStyle ="#FFFF00";
+      this.ctxMap.fillRect((p.x/100),(p.y/100),4,4);
+      this.ctxMap.fillStyle ="#D3D3D3";
     }
   }
 }
