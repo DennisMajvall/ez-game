@@ -23,7 +23,7 @@ module.exports = class Player {
     ];
     this.currentWeapon = this.weapons[0];
 
-    CollisionManager.registerPlayer(this);
+    CollisionManager.register('Player', this);
   }
 
   set hp(value){ this._hp = value; }

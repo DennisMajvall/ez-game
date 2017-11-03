@@ -19,7 +19,7 @@ module.exports = class ResourceNode {
       this.radius = 100;
     }
 
-    CollisionManager.registerResourceNode(this);
+    CollisionManager.register('ResourceNode', this);
   }
 
   onCollision(somethingElse){
@@ -41,7 +41,7 @@ module.exports = class ResourceNode {
     }
 
     if (this.amount != undefined && this.amount <= 0) {
-      CollisionManager.removeResourceNode(this);
+      CollisionManager.remove('ResourceNode', this);
       this.removeFunction(this);
     }
   }
