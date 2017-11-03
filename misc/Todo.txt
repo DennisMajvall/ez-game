@@ -1,7 +1,10 @@
 Bugs
+- Resources can push outside of the map boundaries
+- zoom out shows more map. this is not intended
 
 
 v1.0
+  - change weapon > send to server > send to everybody.
   - Mini-Map
   - Client-side collision - self-player vs resources - push player
   - Client-side collision - bullets vs all - remove bullet

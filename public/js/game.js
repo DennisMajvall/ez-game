@@ -153,10 +153,10 @@ class Game {
     this.players[playerId].y = p.y;
     if (playerId != this.player.id) {
       this.players[playerId].rotation = p.rotation;
-      this.ctxMap.fillRect((p.x/100),(p.y/100),4,4);
+      this.ctxMap.fillRect((p.x/100)-2,(p.y/100)-2,4,4);
     }else{
       this.ctxMap.fillStyle ="#FFFF00";
-      this.ctxMap.fillRect((p.x/100),(p.y/100),4,4);
+      this.ctxMap.fillRect((p.x/100)-2,(p.y/100)-2,4,4);
       this.ctxMap.fillStyle ="#D3D3D3";
     }
   }
