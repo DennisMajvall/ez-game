@@ -19,11 +19,11 @@ module.exports = class ResourceNode {
       this.radius = 100;
     }
 
-    CollisionManager.register('ResourceNode', this);
+    CollisionManager.register('resourceNode', this);
   }
 
   onCollision(somethingElse){
-    if (somethingElse.type == 'Bullet'){
+    if (somethingElse.type == 'bullet'){
       let bullet = somethingElse.target;
       this.onAttacked(bullet.weapon.player, bullet.weapon.resourcesPerHit);
     }
@@ -41,7 +41,7 @@ module.exports = class ResourceNode {
     }
 
     if (this.amount != undefined && this.amount <= 0) {
-      CollisionManager.remove('ResourceNode', this);
+      CollisionManager.remove('resourceNode', this);
       this.removeFunction(this);
     }
   }

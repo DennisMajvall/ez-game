@@ -11,12 +11,12 @@ module.exports = class Bullet {
     this.timeAlive = 0;
     this.alive = true;
 
-    CollisionManager.register('Bullet', this);
+    CollisionManager.register('bullet', this);
   }
 
   onCollision(somethingElse){
     this.alive = false;
-    CollisionManager.remove('Bullet', this);
+    CollisionManager.remove('bullet', this);
   }
 
   update(){
@@ -25,7 +25,7 @@ module.exports = class Bullet {
 
     this.timeAlive += global.deltaTime;
     if (this.weapon.projectileDuration <= this.timeAlive){
-      CollisionManager.remove('Bullet', this);
+      CollisionManager.remove('bullet', this);
       this.alive = false;
     }
     return this.alive;

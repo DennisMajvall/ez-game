@@ -37,28 +37,27 @@ module.exports = new class CollisionManager {
   }
 
 
-  getArrayName(type){
-    return type[0].toLowerCase() + type.slice(1) + 's';
-  }
+
   register(type, item) {
     let c = new Circle(item, type);
-    this[this.getArrayName(type)].push(c);
+    this[type+'s'].push(c);
     return c;
   }
+
   remove(type, item) {
-    let arr = this[this.getArrayName(type)];
+    let arr = this[type+'s'];
     const i = arr.findIndex((data)=>{return (data.target == item)});
     if(i != -1){
       arr.splice(i, 1);
     }
   }
 
-
   distBetween(a, b){
     const x = (b.x - a.x);
     const y = (b.y - a.y);
     return x*x + y*y
   }
+
   radius(a,b){
     const r = a.radius + b.radius;
     return r*r;

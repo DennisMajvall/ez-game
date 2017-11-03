@@ -5,7 +5,6 @@ Bugs
 
 v1.0
   - change weapon > send to server > send to everybody.
-  - Mini-Map
   - Client-side collision - self-player vs resources - push player
   - Client-side collision - bullets vs all - remove bullet
   - Build walls
@@ -62,6 +61,7 @@ Building and Spell ideas:
 
 
  DONE (latest changes at top)
+  - Mini-Map
   - Bugfix: Bullets stay in the game forever until collision
   - add shooting cooldown
   - Added hands + rotation axe

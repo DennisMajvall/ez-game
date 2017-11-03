@@ -1,0 +1,23 @@
+{
+    "default": {
+      "name": "this default wep only specifies the default stats of all weapons, do not use it in-game.",
+      "radius": 30,
+      "health": 100,
+			"weapon": "",
+			"wood": 0,
+			"stone": 0,
+			"silver": 0,
+			"diamond": 0
+		},
+  
+    "wall": {
+			"name": "Wall",
+			"wood": 0
+		},
+		
+    "tower": {
+			"name": "Tower",
+			"weapon": "Shotgun",
+			"wood": 0
+    }
+  }		

@@ -1,12 +1,15 @@
 const Sprite = require('./sprite');
 const CollisionManager = require('./collision-manager');
 const Weapon = require('./weapon');
+const Building = require('./building');
+
 
 module.exports = class Player {
   constructor(socket, name){
     this.socket = socket;
     this.name = name;
 
+    this.buildings = [];
     this.sprite = new Sprite();
     this.x= 500;
     this.y= 500;
@@ -23,7 +26,7 @@ module.exports = class Player {
     ];
     this.currentWeapon = this.weapons[0];
 
-    CollisionManager.register('Player', this);
+    CollisionManager.register('player', this);
   }
 
   set hp(value){ this._hp = value; }
@@ -47,9 +50,9 @@ module.exports = class Player {
   }
 
   onCollision(other, distanceBetween, combinedRadius){
-    if (other.type == 'ResourceNode'){
+    if (other.type == 'resourceNode'){
       this.collideWithResourceNode(other, distanceBetween, combinedRadius);
-    } else if (other.type == 'Bullet'){
+    } else if (other.type == 'bullet'){
       let bullet = other.target;
 
       if (bullet.weapon.player.socket == this.socket) { return true; }
@@ -76,6 +79,14 @@ module.exports = class Player {
     this.y -= distancesToMove.y;
   }
 
+  build(type){
+    let building = new building(type)
+    if(this.wood >= building.wood){
+      this.buildings.push(building);
+      
+    }
+  }
+  
   updateMovement(){
     const speed = 5;
     let vx = 0;
