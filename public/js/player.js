@@ -73,6 +73,10 @@ class Player{
       eq = 'shotgun'; 
       this.weapon.pivot = new PIXI.Point(0, 0); 
     }
+    else if (action == 'equip_3'){
+      eq = 'wall';
+      this.weapon.pivot = new PIXI.Point(0, 0);
+    }
     else if(action == 'click'){ 
       //set attack animation to 0 > if its between 0 & 1 then play animation else 
      //If animation is playing don't start new animation.

@@ -9,7 +9,8 @@ class Keyboard {
       'down': [ 's', 'arrowdown'],
       'left': [ 'a', 'arrowleft'],
       'equip_1': [ '1', 'q'],
-      'equip_2': [ '2', 'e']
+      'equip_2': [ '2', 'e'],
+      'equip_3' :['3']
     };
   }
 

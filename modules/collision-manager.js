@@ -28,6 +28,7 @@ module.exports = new class CollisionManager {
     this.players = [];
     this.resourceNodes = [];
     this.bullets = [];
+    this.buildings = [];
   }
 
   update(){

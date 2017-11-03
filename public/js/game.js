@@ -3,7 +3,7 @@ class Game {
     this.player = {};
     this.players = {};
     this.bullets = [];
-    var canvas = document.getElementById("CanvasMap");
+    var canvas = document.getElementById("canvas-map");
     this.ctxMap = canvas.getContext("2d");
     this.ctxMap.fillStyle="#D3D3D3";
     this.init();
@@ -59,6 +59,15 @@ class Game {
       stage.removeChild(this.players[data].sprite);
       stage.removeChild(this.players[data].healthBar);
     });
+
+    this.socket.on('building', (data)=>{
+      var wall = new PixiSprite(data.type+'.png');
+      wall.scale.set(0.25);
+      wall.x = data.x;
+      wall.y = data.y;
+      wall.rotation = data.rotation;
+      stage.addChild(wall);
+    })
   }
 
   //After binding socket and completing the setup start the game.

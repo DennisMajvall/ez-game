@@ -53,7 +53,8 @@ class App {
       .add("/images/tree.png")
       .add("/images/bullet.png")
       .add("/images/stone.png")
-      .add("/images/maggot.png");
+      .add("/images/maggot.png")
+      .add("/images/wall.png");
   }
 
   connectToServer(playerName) {

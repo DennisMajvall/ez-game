@@ -22,7 +22,8 @@ module.exports = class Player {
     this.resources = { tree: 0, stone: 0, silver: 0, diamond: 0 };
     this.weapons = [
       new Weapon(this, 'axe'),
-      new Weapon(this, 'shotgun')
+      new Weapon(this, 'shotgun'),
+      new Building(this, 'wall')
     ];
     this.currentWeapon = this.weapons[0];
 
@@ -43,10 +44,6 @@ module.exports = class Player {
   update(){
     this.updateMovement();
     this.updateWeapons();
-  }
-
-  shoot(mousePos) {
-    return this.currentWeapon.shoot(mousePos.rot);
   }
 
   onCollision(other, distanceBetween, combinedRadius){
@@ -74,18 +71,11 @@ module.exports = class Player {
       x: Math.cos(dir) * distToMove,
       y: Math.sin(dir) * distToMove
     };
-
     this.x -= distancesToMove.x;
     this.y -= distancesToMove.y;
   }
 
-  build(type){
-    let building = new building(type)
-    if(this.wood >= building.wood){
-      this.buildings.push(building);
-      
-    }
-  }
+
   
   updateMovement(){
     const speed = 5;
@@ -105,16 +95,15 @@ module.exports = class Player {
   }
 
   updateWeapons(){
-    let w = this.weapons;
     let i = false;
     if (this.input.equip_1) { i = 0; }
     else if (this.input.equip_2) { i = 1; }
-    // else if (this.input.equip_3) { i = 2; }
+    else if (this.input.equip_3) { i = 2; }
     // else if (this.input.equip_4) { i = 3; }
     // else if (this.input.equip_5) { i = 4; }
 
-    if (i !== false && w[i]){
-      this.currentWeapon = w[i];
+    if (i !== false && this.weapons[i]){
+      this.currentWeapon = this.weapons[i];
     }
     this.currentWeapon.update();
   }

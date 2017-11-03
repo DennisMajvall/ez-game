@@ -7,12 +7,13 @@
 			"wood": 0,
 			"stone": 0,
 			"silver": 0,
-			"diamond": 0
+			"diamond": 0,
+			"startingOffset": 30
 		},
   
     "wall": {
 			"name": "Wall",
-			"wood": 0
+			"wood": 10
 		},
 		
     "tower": {

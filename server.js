@@ -23,7 +23,7 @@ io.on('connection', function(socket){
 
 global.json = {};
 global.json.weapons = require('./public/json/weapons.json');
-
+global.json.buildings = require('./public/json/buildings.json');
 const Game = require('./modules/game');
 const game = new Game();
 
