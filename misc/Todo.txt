@@ -4,9 +4,6 @@ Bugs
 
 
 v1.0
-  - change weapon > send to server > send to everybody.
-  - Client-side collision - self-player vs resources - push player
-  - Client-side collision - bullets vs all - remove bullet
   - Build walls
   - Build tower that shoots nearby hostiles
   - Better images/sprites
@@ -17,6 +14,8 @@ v1.0
   - Do a small perfomance-test.
   - deadscreen(restart game button + points on kill(KILLCOUNTER))
   - Fix positioning of hands and rotation
+  - Client-side collision - self-player vs resources - push player
+  - Client-side collision - bullets vs all - remove bullet
 
 v2.0
   - Limit to 1 browser per game
@@ -61,6 +60,7 @@ Building and Spell ideas:
 
 
  DONE (latest changes at top)
+  - change weapon > send to server > send to everybody.
   - Mini-Map
   - Bugfix: Bullets stay in the game forever until collision
   - add shooting cooldown

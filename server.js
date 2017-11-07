@@ -60,11 +60,11 @@ function joinGame(socket){
     game.players[socket.id].input[action] = false;
   });
 
-  socket.on('mouseDown', function(mouseData){
+  socket.on('mouseDown', function(){
     game.players[socket.id].input['shoot'] = true;
   });
 
-  socket.on('mouseUp', function(mouseData){
+  socket.on('mouseUp', function(){
     game.players[socket.id].input['shoot'] = false;
   });
 

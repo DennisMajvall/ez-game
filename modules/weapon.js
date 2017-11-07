@@ -17,8 +17,12 @@ module.exports = class Weapon {
   updateShooting(){
     if (this.player.input.shoot){
       const bul = this.shoot(this.player.rotation);
-      if (bul && bul.weapon.projectileDuration){
-        global.io.emit('bulletSpawn', { x: bul.x, y: bul.y, rotation: bul.rotation });
+      if (bul){
+        if(bul.weapon.projectileDuration){
+          global.io.emit('bulletSpawn', { x: bul.x, y: bul.y, rotation: bul.rotation });
+        } else{
+          this.player.sendAction('click');
+        }
       }
     }
 

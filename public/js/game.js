@@ -68,6 +68,11 @@ class Game {
       wall.rotation = data.rotation;
       stage.addChild(wall);
     })
+
+  
+    this.socket.on('action', (data)=>{
+      this.players[data.playerId].onAction(data.action);
+    })
   }
 
   //After binding socket and completing the setup start the game.

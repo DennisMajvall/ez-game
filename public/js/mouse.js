@@ -9,14 +9,14 @@ class Mouse {
     this.socket = app.socket;
 
     renderer.plugins.interaction.on('pointerdown', (e)=>{
-      this.socket.emit('mouseDown', {x: this.x, y: this.y, rot: this.rotation});
+      this.socket.emit('mouseDown');
       if (this.mouseListener){
         this.mouseListener('click');
       }
     });
 
     renderer.plugins.interaction.on('pointerup', (e)=>{
-      this.socket.emit('mouseUp', {x: this.x, y: this.y, rot: this.rotation});
+      this.socket.emit('mouseUp');
     });
 
 

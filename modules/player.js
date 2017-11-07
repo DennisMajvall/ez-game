@@ -96,15 +96,19 @@ module.exports = class Player {
 
   updateWeapons(){
     let i = false;
-    if (this.input.equip_1) { i = 0; }
-    else if (this.input.equip_2) { i = 1; }
-    else if (this.input.equip_3) { i = 2; }
+    if (this.input.equip_1) { i = 0; this.sendAction('equip_1'); }
+    else if (this.input.equip_2) { i = 1; this.sendAction('equip_2'); }
+    else if (this.input.equip_3) { i = 2; this.sendAction('equip_3'); }
     // else if (this.input.equip_4) { i = 3; }
     // else if (this.input.equip_5) { i = 4; }
-
+ 
     if (i !== false && this.weapons[i]){
       this.currentWeapon = this.weapons[i];
     }
     this.currentWeapon.update();
+  }
+
+  sendAction(playerInput){
+    global.io.emit('action', {playerId: this.socket.id, action: playerInput});
   }
 }
