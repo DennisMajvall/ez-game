@@ -3,6 +3,7 @@ class Game {
     this.player = {};
     this.players = {};
     this.bullets = [];
+    this.monsters = {};
     var canvas = document.getElementById("canvas-map");
     this.ctxMap = canvas.getContext("2d");
     this.ctxMap.fillStyle="#D3D3D3";
@@ -52,12 +53,18 @@ class Game {
       }
     });
 
+    this.socket.on('spawnMonsters', (monsters)=>{
+      for(let monster of monsters){
+        console.log(monster.monsterId, monster.type, monster.health, monster.x, monster.y);
+        this.addMonster(monster.monsterId, monster.type, monster.health, monster.x, monster.y);
+      }
+    });
 
-    this.socket.on('removePlayer', (data)=>{
-      if (!this.players[data]) { return; }
-      stage.removeChild(this.players[data].nameText);
-      stage.removeChild(this.players[data].sprite);
-      stage.removeChild(this.players[data].healthBar);
+    this.socket.on('removePlayer', (playerId)=>{
+      if (!this.players[playerId]) { return; }
+      stage.removeChild(this.players[playerId].nameText);
+      stage.removeChild(this.players[playerId].sprite);
+      stage.removeChild(this.players[playerId].healthBar);
     });
 
     this.socket.on('building', (data)=>{
@@ -93,16 +100,21 @@ class Game {
       //    console.log(this.player.name, this.players.hp);
       //}else{
         this.players[data.id].hp = data.hp;
-        console.log(this.players[data.id].name, data.hp);
       //}
     });
+
+    this.socket.on('moveMonster', (data)=>{
+      for(let key in data){
+        this.renderMonster(data[key]);
+      }
+    });
+
   }
 
 
   setResources(resources){
     //Maybe needed later
     //this.player.resources = resources;
-
     for (let name in resources) {
       $(`#${name}`).text(resources[name]);
     }
@@ -173,5 +185,20 @@ class Game {
       this.ctxMap.fillRect((p.x/100)-2,(p.y/100)-2,4,4);
       this.ctxMap.fillStyle ="#D3D3D3";
     }
+  }
+
+  renderMonster(monster){
+    this.monsters[monster.monsterId].sprite.position.set(monster.x, monster.y);
+  }
+
+  addMonster(monsterId, type, health, x, y){
+    if(this.monsters[monsterId] == undefined) {
+      this.monsters[monsterId] = new Monster(monsterId, type, health, x, y);
+    }
+  }
+
+  removeMonster(monsterId){
+    if (!this.monsters[monsterId]) { return; }
+    stage.removeChild(this.monsters[monsterId].sprite);
   }
 }
