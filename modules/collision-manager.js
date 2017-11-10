@@ -29,6 +29,7 @@ module.exports = new class CollisionManager {
     this.resourceNodes = [];
     this.bullets = [];
     this.buildings = [];
+    this.monsters = [];
   }
 
   update(){
@@ -36,8 +37,6 @@ module.exports = new class CollisionManager {
     this.updateTwo(this.players, this.bullets);
     this.updateTwo(this.bullets, this.resourceNodes);
   }
-
-
 
   register(type, item) {
     let c = new Circle(item, type);

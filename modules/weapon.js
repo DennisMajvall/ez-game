@@ -25,7 +25,6 @@ module.exports = class Weapon {
         }
       }
     }
-
     this.cooldownLeft -= global.deltaTime;
   }
 

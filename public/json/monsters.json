@@ -1,0 +1,16 @@
+{
+    "default": {
+      "name": "this default wep only specifies the default stats of all monsters, do not use it in-game.",
+      "radius": 30,
+      "health": 100,
+	  "meat": 20
+		},
+  
+    "cow": {
+			"name": "Cow"
+		},
+		
+    "bull": {
+			"name": "Bull"
+    }
+  }		

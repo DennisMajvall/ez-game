@@ -24,6 +24,7 @@ io.on('connection', function(socket){
 global.json = {};
 global.json.weapons = require('./public/json/weapons.json');
 global.json.buildings = require('./public/json/buildings.json');
+global.json.monsters = require('./public/json/monsters.json');
 const Game = require('./modules/game');
 const game = new Game();
 
@@ -45,9 +46,12 @@ function onPlayerDisconnected(socket){
 
 function joinGame(socket){
   socket.broadcast.emit('newPlayer', {playerId:socket.id, name: game.players[socket.id].name});
+  socket.emit('spawnResources', game.resourceNodes);
+  socket.emit('spawnMonsters', game.getMonsters());
+
   socket.emit('playerSetup', {player:{playerId:socket.id, name: game.players[socket.id].name}, players:game.getPlayers()});
 
-  socket.emit('spawnResources', game.resourceNodes);
+
 
 
   // TODO Maybe add resources on server and clientside. only send resource ammount @start of the game and then update it clientside and on server let the collisions automatically update it.

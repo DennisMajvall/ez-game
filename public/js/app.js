@@ -54,7 +54,8 @@ class App {
       .add("/images/bullet.png")
       .add("/images/stone.png")
       .add("/images/maggot.png")
-      .add("/images/wall.png");
+      .add("/images/wall.png")
+      .add("/images/cow.png");
   }
 
   connectToServer(playerName) {
