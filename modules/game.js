@@ -17,7 +17,6 @@ module.exports = class Game {
       this.resourceNodes.push( new ResourceNode('tree',  this.removeResourceNode.bind(this)) );
       this.resourceNodes.push( new ResourceNode('stone', this.removeResourceNode.bind(this)));
       let monsterId = guid();
-      console.log(monsterId);
       this.monsters[monsterId] = new Monster('cow', monsterId);
     }
   }
@@ -52,7 +51,6 @@ module.exports = class Game {
       let m = this.monsters[monsterId];
       shortMonsters.push({monsterId: m.monsterId, type:m.type, health: m.health, x: m.x, y: m.y});
     }
-    console.log(shortMonsters);
     return shortMonsters;
   }
 
