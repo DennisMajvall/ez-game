@@ -80,10 +80,13 @@ class App {
 // Start the application
 let app = new App();
 
+$(document).on('keyup', '#txtName', (e)=>{e.key == 'Enter' && (startGame())});
+$(document).on('click', '#btStartGame', startGame);
 
-function startGame(element) {
+
+function startGame() {
   let playerName = $('#txtName').val() || 'Unknown';
-  $(element).parent().hide();
+  $('.startMenu').hide();
   app.AppStart(playerName);
 }
 
