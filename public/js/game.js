@@ -55,7 +55,6 @@ class Game {
 
     this.socket.on('spawnMonsters', (monsters) => {
       for (let monster of monsters) {
-        console.log(monster.monsterId, monster.type, monster.health, monster.x, monster.y);
         this.addMonster(monster.monsterId, monster.type, monster.health, monster.x, monster.y);
       }
     });
@@ -95,12 +94,7 @@ class Game {
     this.socket.on('resources', this.setResources.bind(this));
 
     this.socket.on("updateHp", (data) => {
-      //if(this.player.id == data.id){
-      //    this.player.set = data.hp;
-      //    console.log(this.player.name, this.players.hp);
-      //}else{
       this.players[data.id].hp = data.hp;
-      //}
     });
 
     this.socket.on('moveMonster', (data) => {
@@ -113,8 +107,7 @@ class Game {
 
 
   setResources(resources) {
-    //Maybe needed later
-    //this.player.resources = resources;
+    //Maybe needed later: this.player.resources = resources;
     for (let name in resources) {
       $(`#${name}`).text(resources[name]);
     }
