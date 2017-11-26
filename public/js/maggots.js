@@ -16,7 +16,7 @@ class Maggots {
       m.x = Math.random() * 10000;
       m.y = Math.random() * 10000;
 
-      m.scale.set(scale + Math.random() * (scale*0.25));
+      m.scale.set(scale + Math.random() * (scale * 0.25));
       m.original = new PIXI.Point();
       m.original.copy(m.scale);
       this.maggots.push(m);
@@ -26,13 +26,13 @@ class Maggots {
   update() {
     this.count += 2.5 * deltaTime;
 
-    for (let m of this.maggots){
+    for (let m of this.maggots) {
       const speed = m.speed * deltaTime;
       m.direction += m.turnSpeed * 0.01;
       m.x += Math.sin(m.direction) * speed;
       m.y += Math.cos(m.direction) * speed;
 
-      m.rotation = -m.direction - Math.PI/2;
+      m.rotation = -m.direction - Math.PI / 2;
       m.scale.x = m.original.x + Math.sin(this.count) * 0.15;
 
       // wrap the maggots around as the crawl
@@ -48,7 +48,7 @@ class Maggots {
         m.y -= 12000;
       }
     }
-};
+  };
 
 
 }

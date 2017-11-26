@@ -16,7 +16,7 @@ class Circle {
   get radius() { return this.target.radius; }
 
   // Overrides what happens when we console.log on this object
-  inspect(){ return `${this.type} (${Math.round(this.x)},${Math.round(this.y)}) radius: ${this.radius}`; }
+  inspect() { return `${this.type} (${Math.round(this.x)},${Math.round(this.y)}) radius: ${this.radius}`; }
 }
 
 module.exports = new class CollisionManager {
@@ -32,7 +32,7 @@ module.exports = new class CollisionManager {
     this.monsters = [];
   }
 
-  update(){
+  update() {
     this.updateTwo(this.players, this.resourceNodes);
     this.updateTwo(this.players, this.bullets);
     this.updateTwo(this.bullets, this.resourceNodes);
@@ -40,38 +40,38 @@ module.exports = new class CollisionManager {
 
   register(type, item) {
     let c = new Circle(item, type);
-    this[type+'s'].push(c);
+    this[type + 's'].push(c);
     return c;
   }
 
   remove(type, item) {
-    let arr = this[type+'s'];
-    const i = arr.findIndex((data)=>{return (data.target == item)});
-    if(i != -1){
+    let arr = this[type + 's'];
+    const i = arr.findIndex((data) => { return (data.target == item) });
+    if (i != -1) {
       arr.splice(i, 1);
     }
   }
 
-  distBetween(a, b){
+  distBetween(a, b) {
     const x = (b.x - a.x);
     const y = (b.y - a.y);
-    return x*x + y*y
+    return x * x + y * y
   }
 
-  radius(a,b){
+  radius(a, b) {
     const r = a.radius + b.radius;
-    return r*r;
+    return r * r;
   }
 
-  updateTwo(arrA, arrB){
-    for (let a of arrA){
-      for (let b of arrB){
+  updateTwo(arrA, arrB) {
+    for (let a of arrA) {
+      for (let b of arrB) {
 
-        let distance = this.distBetween(a,b);
-        let combinedRadius = this.radius(a,b);
+        let distance = this.distBetween(a, b);
+        let combinedRadius = this.radius(a, b);
 
         // If hit
-        if (distance <= combinedRadius){
+        if (distance <= combinedRadius) {
 
           // Only sqrt after a hit has occured
           distance = Math.sqrt(distance);
@@ -82,7 +82,7 @@ module.exports = new class CollisionManager {
           !done && b.onCollision && b.onCollision(a, distance, combinedRadius);
 
           // If either collision function returns true, don't check against others in arrB.
-          if(done) { break; }
+          if (done) { break; }
         }
       }
     }
@@ -93,11 +93,11 @@ module.exports = new class CollisionManager {
     let arrB = this[arrayName];
     if (arrB === undefined) { console.error('ERROR, CollisionManager.checkAgainst:', arrayName); }
 
-    for (let other of arrB){
+    for (let other of arrB) {
       let distance = this.distBetween(a, other);
       let combinedRadius = this.radius(a, other);
 
-      if (distance <= combinedRadius){
+      if (distance <= combinedRadius) {
         distance = Math.sqrt(distance);
         combinedRadius = Math.sqrt(combinedRadius);
 

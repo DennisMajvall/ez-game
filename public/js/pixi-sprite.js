@@ -1,6 +1,6 @@
-class PixiSprite{
+class PixiSprite {
 
-  constructor(name){
+  constructor(name) {
     const rootFolder = "/images/";
     let sprite = new PIXI.Sprite(
       PIXI.loader.resources[rootFolder + name].texture

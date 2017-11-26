@@ -2,15 +2,15 @@
 const mouse = new Mouse();
 const keyboard = new Keyboard();
 let stage, renderer;
-let deltaTime = 1/60;
+let deltaTime = 1 / 60;
 
 // TODO: on resize event: change size of canvas etc..
-$(window).on('resize', function(){
+$(window).on('resize', function () {
   if (!renderer) { return; }
   let w = $(this);
   renderer.resize(w.width(), w.height());
-  stage.position.x = renderer.width/2;
-  stage.position.y = renderer.height/2;
+  stage.position.x = renderer.width / 2;
+  stage.position.y = renderer.height / 2;
 });
 
 class App {
@@ -22,14 +22,14 @@ class App {
     this.game = new Game();
     this.state = this.game.update.bind(this.game);
 
-    this.loadTextures().load((a,b,c)=> {
+    this.loadTextures().load((a, b, c) => {
       this.game.initPostLoad();
 
       this.gameLoop();
     });
   }
 
-  initRenderer(){
+  initRenderer() {
     renderer = PIXI.autoDetectRenderer({
       width: window.innerWidth,
       height: window.innerHeight,
@@ -39,14 +39,14 @@ class App {
     document.getElementById('display').appendChild(renderer.view);
   }
 
-  initStage(){
+  initStage() {
     stage = new PIXI.Container();
     stage.interactive = true;
-    stage.position.x = renderer.width/2;
-    stage.position.y = renderer.height/2;
+    stage.position.x = renderer.width / 2;
+    stage.position.y = renderer.height / 2;
   }
 
-  loadTextures(){
+  loadTextures() {
     return PIXI.loader
       .add("/images/shotgun.png")
       .add("/images/axe.png")
@@ -73,7 +73,7 @@ class App {
     requestAnimationFrame(this.gameLoop.bind(this));
   }
 
-  AppStart(playerName){
+  AppStart(playerName) {
     this.connectToServer(playerName);
   }
 }
@@ -81,17 +81,17 @@ class App {
 let app = new App();
 
 
-function startGame(element){
+function startGame(element) {
   let playerName = $('#txtName').val() || 'Unknown';
   $(element).parent().hide();
   app.AppStart(playerName);
 }
 
 // Global helper functions
-function radiansToDegrees(angle){ return angle * 180 / Math.PI; }
-function rotateToPoint(mx, my, px, py){
+function radiansToDegrees(angle) { return angle * 180 / Math.PI; }
+function rotateToPoint(mx, my, px, py) {
   var dist_Y = my - py;
   var dist_X = mx - px;
-  var angle = Math.atan2(dist_Y,dist_X);
+  var angle = Math.atan2(dist_Y, dist_X);
   return angle;
 }

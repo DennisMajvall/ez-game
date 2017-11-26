@@ -5,14 +5,14 @@ const Building = require('./building');
 
 
 module.exports = class Player {
-  constructor(socket, name){
+  constructor(socket, name) {
     this.socket = socket;
     this.name = name;
 
     this.buildings = [];
     this.sprite = new Sprite();
-    this.x= 500;
-    this.y= 500;
+    this.x = 500;
+    this.y = 500;
     //this.x = Math.random()*10000;
     //this.y = Math.random()*10000;
     this.input = {};
@@ -30,26 +30,26 @@ module.exports = class Player {
     CollisionManager.register('player', this);
   }
 
-  set hp(value){ this._hp = value; }
-  get hp(){ return this._hp; }
+  set hp(value) { this._hp = value; }
+  get hp() { return this._hp; }
 
-  set rotation(value){ this.sprite.rotation = value; }
-  get rotation(){ return this.sprite.rotation; }
+  set rotation(value) { this.sprite.rotation = value; }
+  get rotation() { return this.sprite.rotation; }
 
-  set x(value){ this.sprite.x = value; }
-  set y(value){ this.sprite.y = value; }
-  get x(){ return this.sprite.x; }
-  get y(){ return this.sprite.y; }
+  set x(value) { this.sprite.x = value; }
+  set y(value) { this.sprite.y = value; }
+  get x() { return this.sprite.x; }
+  get y() { return this.sprite.y; }
 
-  update(){
+  update() {
     this.updateMovement();
     this.updateWeapons();
   }
 
-  onCollision(other, distanceBetween, combinedRadius){
-    if (other.type == 'resourceNode'){
+  onCollision(other, distanceBetween, combinedRadius) {
+    if (other.type == 'resourceNode') {
       this.collideWithResourceNode(other, distanceBetween, combinedRadius);
-    } else if (other.type == 'bullet'){
+    } else if (other.type == 'bullet') {
       let bullet = other.target;
 
       if (bullet.weapon.player.socket == this.socket) { return true; }
@@ -63,7 +63,7 @@ module.exports = class Player {
     }
   }
 
-  collideWithResourceNode(other, distanceBetween, combinedRadius){
+  collideWithResourceNode(other, distanceBetween, combinedRadius) {
     let distToMove = combinedRadius - distanceBetween;
     let dir = Math.atan2(other.y - this.y, other.x - this.x);
 
@@ -76,39 +76,39 @@ module.exports = class Player {
   }
 
 
-  
-  updateMovement(){
+
+  updateMovement() {
     const speed = 5;
     let vx = 0;
     let vy = 0;
 
-    if (this.input.left)  { vx -= speed; }
+    if (this.input.left) { vx -= speed; }
     if (this.input.right) { vx += speed; }
-    if (this.input.up)    { vy -= speed; }
-    if (this.input.down)  { vy += speed; }
+    if (this.input.up) { vy -= speed; }
+    if (this.input.down) { vy += speed; }
 
     let calcX = (this.x + vx);
     let calcY = (this.y + vy);
 
-    if(calcX < 10000 && calcX > 0) { this.x += vx; }
-    if(calcY < 10000 && calcY > 0) { this.y += vy; }
+    if (calcX < 10000 && calcX > 0) { this.x += vx; }
+    if (calcY < 10000 && calcY > 0) { this.y += vy; }
   }
 
-  updateWeapons(){
+  updateWeapons() {
     let i = false;
     if (this.input.equip_1) { i = 0; this.sendAction('equip_1'); }
     else if (this.input.equip_2) { i = 1; this.sendAction('equip_2'); }
     else if (this.input.equip_3) { i = 2; this.sendAction('equip_3'); }
     // else if (this.input.equip_4) { i = 3; }
     // else if (this.input.equip_5) { i = 4; }
- 
-    if (i !== false && this.weapons[i]){
+
+    if (i !== false && this.weapons[i]) {
       this.currentWeapon = this.weapons[i];
     }
     this.currentWeapon.update();
   }
 
-  sendAction(playerInput){
-    global.io.emit('action', {playerId: this.socket.id, action: playerInput});
+  sendAction(playerInput) {
+    global.io.emit('action', { playerId: this.socket.id, action: playerInput });
   }
 }

@@ -1,7 +1,7 @@
 const CollisionManager = require('./collision-manager');
 
 module.exports = class Bullet {
-  constructor(rotation, weapon){
+  constructor(rotation, weapon) {
     this.rotation = rotation;
     this.weapon = weapon;
 
@@ -14,17 +14,17 @@ module.exports = class Bullet {
     CollisionManager.register('bullet', this);
   }
 
-  onCollision(somethingElse){
+  onCollision(somethingElse) {
     this.alive = false;
     CollisionManager.remove('bullet', this);
   }
 
-  update(){
+  update() {
     this.x += Math.cos(this.rotation) * this.weapon.bulletSpeed;
     this.y += Math.sin(this.rotation) * this.weapon.bulletSpeed;
 
     this.timeAlive += global.deltaTime;
-    if (this.weapon.projectileDuration <= this.timeAlive){
+    if (this.weapon.projectileDuration <= this.timeAlive) {
       CollisionManager.remove('bullet', this);
       this.alive = false;
     }

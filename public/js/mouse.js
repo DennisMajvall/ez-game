@@ -1,29 +1,29 @@
 class Mouse {
-  constructor(){
+  constructor() {
     if (Mouse.instance) { return Mouse.instance; }
-	  this.rotation = 0;
+    this.rotation = 0;
   }
 
-  bindSocket(){
+  bindSocket() {
     if (this.socket) { return; } // don't attach listeners more than once
     this.socket = app.socket;
 
-    renderer.plugins.interaction.on('pointerdown', (e)=>{
+    renderer.plugins.interaction.on('pointerdown', (e) => {
       this.socket.emit('mouseDown');
-      if (this.mouseListener){
+      if (this.mouseListener) {
         this.mouseListener('click');
       }
     });
 
-    renderer.plugins.interaction.on('pointerup', (e)=>{
+    renderer.plugins.interaction.on('pointerup', (e) => {
       this.socket.emit('mouseUp');
     });
 
 
-    setInterval (()=>{
-      let rotationAngle = rotateToPoint(this.x, this.y, renderer.width/2, renderer.height/2);
+    setInterval(() => {
+      let rotationAngle = rotateToPoint(this.x, this.y, renderer.width / 2, renderer.height / 2);
 
-      if(rotationAngle != this.rotation){
+      if (rotationAngle != this.rotation) {
         this.rotation = rotationAngle;
         this.socket.emit('rotation', rotationAngle);
       }
@@ -32,11 +32,11 @@ class Mouse {
 
 
 
-  get x(){
+  get x() {
     return renderer.plugins.interaction.mouse.global.x;
   }
 
-  get y(){
+  get y() {
     return renderer.plugins.interaction.mouse.global.y;
   }
 }

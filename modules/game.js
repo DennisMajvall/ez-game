@@ -4,60 +4,60 @@ const CollisionManager = require('./collision-manager');
 const microtime = require('microtime')
 const Monster = require('./monster');
 
-global.deltaTime = 1/60;
+global.deltaTime = 1 / 60;
 
 module.exports = class Game {
-  constructor(){
+  constructor() {
     this.players = {};
     this.resourceNodes = [];
     this.monsters = {};
     this.timeUpdated = microtime.now();
 
-    for(let i = 0; i < 100; i++){
-      this.resourceNodes.push( new ResourceNode('tree',  this.removeResourceNode.bind(this)) );
-      this.resourceNodes.push( new ResourceNode('stone', this.removeResourceNode.bind(this)));
+    for (let i = 0; i < 100; i++) {
+      this.resourceNodes.push(new ResourceNode('tree', this.removeResourceNode.bind(this)));
+      this.resourceNodes.push(new ResourceNode('stone', this.removeResourceNode.bind(this)));
       let monsterId = guid();
       this.monsters[monsterId] = new Monster('cow', monsterId);
     }
   }
 
-  addPlayer(socket, playerName = 'Unknown'){
+  addPlayer(socket, playerName = 'Unknown') {
     this.players[socket.id] = new Player(socket, playerName);
   }
 
-  removePlayer(socketId){
+  removePlayer(socketId) {
     delete this.players[socketId];
   }
 
-  removeResourceNode(r){
+  removeResourceNode(r) {
     let i = this.resourceNodes.indexOf(r);
     if (i != -1) {
       this.resourceNodes.splice(i, 1);
     }
   }
 
-  getPlayers(){
+  getPlayers() {
     var shortPlayers = [];
-    for(let playerId in this.players){
-	    let p = this.players[playerId];
-      shortPlayers.push({playerId: p.socket.id  , name:p.name});
+    for (let playerId in this.players) {
+      let p = this.players[playerId];
+      shortPlayers.push({ playerId: p.socket.id, name: p.name });
     }
     return shortPlayers;
   }
 
-  getMonsters(){
+  getMonsters() {
     var shortMonsters = [];
-    for(let monsterId in this.monsters){
+    for (let monsterId in this.monsters) {
       let m = this.monsters[monsterId];
-      shortMonsters.push({monsterId: m.monsterId, type:m.type, health: m.health, x: m.x, y: m.y});
+      shortMonsters.push({ monsterId: m.monsterId, type: m.type, health: m.health, x: m.x, y: m.y });
     }
     return shortMonsters;
   }
 
-  sendPlayerPositions(){
+  sendPlayerPositions() {
     let positions = {};
 
-    for(let playerId in this.players){
+    for (let playerId in this.players) {
       let p = this.players[playerId];
       positions[playerId] = {
         name: p.name,
@@ -70,25 +70,25 @@ module.exports = class Game {
     global.io.emit('playerPositions', positions);
   }
 
-  sendMonsterPositions(){
+  sendMonsterPositions() {
     let monsterPositions = {};
-    for(let monsterId in this.monsters){
+    for (let monsterId in this.monsters) {
       let m = this.monsters[monsterId];
       monsterPositions[monsterId] = {
         monsterId: m.monsterId,
         x: m.x,
         y: m.y
       };
-    } 
+    }
     global.io.emit('moveMonster', monsterPositions);
   }
 
   update() {
-    for(let playerId in this.players){
+    for (let playerId in this.players) {
       this.players[playerId].update();
     }
 
-    for(let monsterId in this.monsters){
+    for (let monsterId in this.monsters) {
       this.monsters[monsterId].update();
     }
     CollisionManager.update();

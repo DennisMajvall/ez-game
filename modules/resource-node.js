@@ -4,7 +4,7 @@ const gamefieldHeight = 9800;
 const gamefieldWidth = 9800;
 
 module.exports = class ResourceNode {
-  constructor(type, removeFunction){
+  constructor(type, removeFunction) {
     this.type = type;
     this.removeFunction = removeFunction;
     this.x = Math.random() * gamefieldWidth + 100;
@@ -22,14 +22,14 @@ module.exports = class ResourceNode {
     CollisionManager.register('resourceNode', this);
   }
 
-  onCollision(somethingElse){
-    if (somethingElse.type == 'bullet'){
+  onCollision(somethingElse) {
+    if (somethingElse.type == 'bullet') {
       let bullet = somethingElse.target;
       this.onAttacked(bullet.weapon.player, bullet.weapon.resourcesPerHit);
     }
   }
 
-  onAttacked(player, numResources){
+  onAttacked(player, numResources) {
     if (this.amount != undefined) {
       numResources = Math.min(this.amount, numResources);
       this.amount -= numResources;
