@@ -25,17 +25,18 @@ module.exports = new class CollisionManager {
     CollisionManager.instance = this;
     CollisionManager.checkAgainst = this.checkAgainst;
 
-    this.players = [];
-    this.resourceNodes = [];
-    this.bullets = [];
-    this.buildings = [];
-    this.monsters = [];
-  }
+		this.arrayNames = ['players', 'resourceNodes', 'bullets', 'buildings', 'monsters'];
+		for (let name of this.arrayNames) {
+			this[name] = [];
+		}
+	}
 
   update() {
     this.updateTwo(this.players, this.resourceNodes);
     this.updateTwo(this.players, this.bullets);
+    this.updateTwo(this.players, this.buildings);
     this.updateTwo(this.bullets, this.resourceNodes);
+    this.updateTwo(this.bullets, this.buildings);
   }
 
   register(type, item) {
@@ -107,4 +108,32 @@ module.exports = new class CollisionManager {
 
     return false;
   }
+
+  checkAgainstAll(a) {
+		let result = false;
+		for (let name of this.arrayNames) {
+			!result && (result = this.checkAgainst(a, name));
+		}
+
+		return result;
+	}
+
+  checkAgainstAllExcept(a, names) {
+		if (!names) {
+			console.log('Error - checkAgainstAllExcept no name(s) supplied. a:', a);
+			return false;
+		}
+		if (names.constructor.name != 'Array') {
+			names = [ names ];
+		}
+
+		let result = false;
+		for (let name of this.arrayNames) {
+			if(!result && !names.includes(name)) {
+				result = this.checkAgainst(a, name);
+			}
+		}
+
+		return result;
+	}
 }

@@ -3,7 +3,7 @@ Bugs
 
 
 v1.0
-  - Build walls
+  - Build walls (Almost complete, only missing "when destroyed, emit msg to players + "when joining, send all previously placed buildings to player")
   - Build tower that shoots nearby hostiles
   - Better images/sprites
   - Add roaming animals that give food on death

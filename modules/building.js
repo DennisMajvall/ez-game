@@ -4,16 +4,37 @@ module.exports = class Building {
   constructor(player, type) {
     Object.assign(this, global.json.buildings.default, global.json.buildings[type]);
     this.player = player;
+		this.type = type;
     this.rotation = player.rotation;
     this.x = player.x + Math.cos(this.rotation) * this.startingOffset;
     this.y = player.y + Math.sin(this.rotation) * this.startingOffset;
   }
 
   place() {
+    this.player.buildings.push(this);
     CollisionManager.register('building', this);
+
+		this.player.resources.tree -= this.tree;
+
+		global.io.emit('building', {
+			type: this.type,
+			x: this.x,
+			y: this.y,
+			rotation: this.rotation,
+			ownerId: this.player.socket.id
+		});
   }
 
-  onCollision() {
+  onCollision(other) {
+    if (this.health <= 0) { return true; }
+    if (other.type == 'bullet') {
+      let bullet = other.target;
+      this.health -= bullet.weapon.dmg;
+			if (this.health <= 0) {
+				CollisionManager.remove('building', this);
+			}
+      console.log(bullet.weapon.player.name, 'dealt', bullet.weapon.dmg, 'dmg to', this.name, 'HP left:', this.health);
+		}
   }
 
   update() {
@@ -22,20 +43,22 @@ module.exports = class Building {
 
   updateBuilding() {
     if (this.player.input.shoot) {
-      this.build('kebab');
+      this.build('wall');
     }
   }
 
   build(type) {
-    let building = new Building(this.player, 'wall');
-    if (this.player.resources.tree >= building.wood) {
-      //more validation but Dennis says fck it. fck collision because dennis says it.
-      this.player.buildings.push(building);
+    let building = new Building(this.player, type);
+    if (this.hasEnoughResources(building) && !CollisionManager.checkAgainstAllExcept(building, 'players')) {
       building.place();
-
-      this.player.resources.tree -= building.wood;
-      this.player.input.shoot = false;
-      global.io.emit('building', { type: 'wall', x: building.x, y: building.y, rotation: building.rotation, ownerId: this.player.socket.id });
+			this.player.input.shoot = false;
     }
   }
+
+  hasEnoughResources(building){
+		return this.player.resources.tree >= building.tree
+			&& this.player.resources.stone >= building.stone
+			&& this.player.resources.silver >= building.silver
+			&& this.player.resources.diamond >= building.diamond;
+	}
 }

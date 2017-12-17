@@ -47,7 +47,7 @@ module.exports = class Player {
   }
 
   onCollision(other, distanceBetween, combinedRadius) {
-    if (other.type == 'resourceNode') {
+    if (other.type == 'resourceNode' || other.type == 'building') {
       this.collideWithNonMovableObject(other, distanceBetween, combinedRadius);
     } else if (other.type == 'bullet') {
       let bullet = other.target;
