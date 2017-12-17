@@ -12,7 +12,9 @@ http.listen(3000, function(){
 });
 
 io.on('connection', function(socket){
-  onPlayerConnected(socket);
+  socket.on('playerStart',(playerName)=>{
+  	onPlayerConnected(socket, playerName);
+  });
   socket.on('disconnect', function(){
     onPlayerDisconnected(socket);
   });
@@ -30,12 +32,10 @@ const game = new Game();
 
 
 
-function onPlayerConnected(socket){
+function onPlayerConnected(socket, playerName){
   console.log('a user connected', socket.id);
-  socket.on('playerStart',(playerName)=>{
-    game.addPlayer(socket, playerName)
-    joinGame(socket);
-  });
+	game.addPlayer(socket, playerName)
+	joinGame(socket);
  }
 
 function onPlayerDisconnected(socket){

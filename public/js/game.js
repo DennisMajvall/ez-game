@@ -181,7 +181,9 @@ class Game {
   }
 
   renderMonster(monster) {
-    this.monsters[monster.monsterId].sprite.position.set(monster.x, monster.y);
+		if (monster && monster.monsterId) {
+    	this.monsters[monster.monsterId].sprite.position.set(monster.x, monster.y);
+		}
   }
 
   addMonster(monsterId, type, health, x, y) {
