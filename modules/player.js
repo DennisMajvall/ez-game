@@ -48,7 +48,7 @@ module.exports = class Player {
 
   onCollision(other, distanceBetween, combinedRadius) {
     if (other.type == 'resourceNode') {
-      this.collideWithResourceNode(other, distanceBetween, combinedRadius);
+      this.collideWithNonMovableObject(other, distanceBetween, combinedRadius);
     } else if (other.type == 'bullet') {
       let bullet = other.target;
 
@@ -63,18 +63,17 @@ module.exports = class Player {
     }
   }
 
-  collideWithResourceNode(other, distanceBetween, combinedRadius) {
-    let distToMove = combinedRadius - distanceBetween;
+  collideWithNonMovableObject(other, distanceBetween, combinedRadius) {
+    let distToMove = distanceBetween - combinedRadius; // switched order
     let dir = Math.atan2(other.y - this.y, other.x - this.x);
 
     let distancesToMove = {
       x: Math.cos(dir) * distToMove,
       y: Math.sin(dir) * distToMove
     };
-    this.x -= distancesToMove.x;
-    this.y -= distancesToMove.y;
-  }
 
+		this.changePosition(distancesToMove.x, distancesToMove.y); // double negative
+  }
 
 
   updateMovement() {
@@ -87,12 +86,16 @@ module.exports = class Player {
     if (this.input.up) { vy -= speed; }
     if (this.input.down) { vy += speed; }
 
+		this.changePosition(vx, vy);
+  }
+
+	changePosition(vx, vy){
     let calcX = (this.x + vx);
     let calcY = (this.y + vy);
 
     if (calcX < 10000 && calcX > 0) { this.x += vx; }
     if (calcY < 10000 && calcY > 0) { this.y += vy; }
-  }
+	}
 
   updateWeapons() {
     let i = false;

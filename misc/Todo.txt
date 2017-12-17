@@ -1,5 +1,4 @@
 Bugs
-- Resources can push outside of the map boundaries
 - zoom out shows more map. this is not intended
 
 
@@ -60,6 +59,7 @@ Building and Spell ideas:
 
 
  DONE (latest changes at top)
+  - Resources can push outside of the map boundaries (Not tested.)
   - change weapon > send to server > send to everybody.
   - Mini-Map
   - Bugfix: Bullets stay in the game forever until collision
